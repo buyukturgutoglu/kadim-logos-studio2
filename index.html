@@ -4,146 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kadim Logos — Content Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#C9A84C;--gd:#8B6914;--dark:#0f0e0c;--s1:#1a1815;--s2:#242018;--s3:#2e2a22;--txt:#e8e0cc;--td:#8a7e68;--tdd:#4a4438;--bdr:#3a3428;--bdr2:#5a5040;--grn:#4a8c5c;--grnd:#1e3828;--red:#8c3a3a;--redd:#3a1818;--blu:#3a6a8c;--bludd:#182838;--amb:#8c6a2a;--ambd:#38280e;--pur:#6a3a8c;--purd:#2a1838}
+:root{
+  --gold:#C9A84C;--gd:#8B6914;--dark:#0f0e0c;--s1:#1a1815;--s2:#242018;--s3:#2e2a22;
+  --txt:#e8e0cc;--td:#8a7e68;--tdd:#4a4438;--bdr:#3a3428;--bdr2:#5a5040;
+  --grn:#4a8c5c;--grnd:#1e3828;--pur:#6a3a8c;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--dark);color:var(--txt);font-family:'Crimson Pro',Georgia,serif;font-size:15px;line-height:1.6;min-height:100vh}
-
-/* HEADER */
-.hdr{padding:14px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--s1);position:sticky;top:0;z-index:100}
-.logo{font-size:16px;font-weight:600;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}
-.logo small{color:var(--td);font-weight:300;font-size:10px;display:block;letter-spacing:.04em}
-.v{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);padding:2px 7px;border:1px solid var(--bdr);border-radius:3px}
-
-/* SCREENS */
-.screen{display:none;min-height:calc(100vh - 57px)}
-.screen.on{display:block}
-
-/* TAKVİM EKRANI */
-.cal-header{padding:20px 24px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
-.cal-title{font-size:18px;font-weight:600;color:var(--txt)}
-.cal-sub{font-size:12px;color:var(--td);margin-top:2px}
-.cal-legend{display:flex;gap:12px;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:9px;color:var(--td)}
-.leg-dot{width:10px;height:10px;border-radius:50%}
-
-/* AY SEKMELERİ */
-.month-tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--bdr);background:var(--s1);scrollbar-width:none;padding:0 24px}
-.month-tabs::-webkit-scrollbar{display:none}
-.mtab{padding:10px 14px;font-size:10px;font-family:'DM Mono',monospace;color:var(--td);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
-.mtab:hover{color:var(--txt)}
-.mtab.on{color:var(--gold);border-bottom-color:var(--gold)}
-
-/* TAKVİM GRID */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:16px 24px}
-.cal-day-header{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);text-align:center;padding:6px 0}
-.cal-day{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:8px;cursor:pointer;transition:all .2s;min-height:60px;position:relative}
-.cal-day:hover{border-color:var(--bdr2);background:var(--s3)}
-.cal-day.empty{background:transparent;border-color:transparent;cursor:default}
-.cal-day.today{border-color:var(--gold)!important}
-.cal-day-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);margin-bottom:4px}
-.cal-day-title{font-size:9px;color:var(--tdd);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.status-dot{width:8px;height:8px;border-radius:50%;position:absolute;top:6px;right:6px}
-.s-empty{background:transparent;border:1px solid var(--bdr2)}
-.s-yellow{background:#C9A84C}
-.s-blue{background:#3a6a8c}
-.s-green{background:#4a8c5c}
-
-/* STÜDİO EKRANI */
-.studio-header{padding:14px 20px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:12px;background:var(--s1)}
-.back-btn{background:var(--s3);border:1px solid var(--bdr);border-radius:6px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--td);cursor:pointer;transition:all .2s}
-.back-btn:hover{color:var(--txt);border-color:var(--bdr2)}
-.studio-day{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold)}
-.studio-title{font-size:16px;font-weight:600;color:var(--txt);flex:1}
-
-.tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--bdr);background:var(--s1);scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{padding:10px 13px;font-size:10px;font-family:'DM Mono',monospace;color:var(--td);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
+body{background:var(--dark);color:var(--txt);font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;line-height:1.6;min-height:100vh}
+.hdr{padding:12px 24px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--s1);position:sticky;top:0;z-index:100}
+.logo{font-size:14px;font-weight:600;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;font-family:'DM Mono',monospace}
+.logo small{color:var(--tdd);font-weight:300;font-size:9px;display:block;letter-spacing:.04em;margin-top:1px}
+.lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--tdd);margin-bottom:6px;display:block}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.fi label{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);display:block;margin-bottom:3px;letter-spacing:.06em}
+.fi input,.fi select,.fi textarea{width:100%;background:var(--s2);border:1px solid var(--bdr);border-radius:6px;padding:8px 11px;color:var(--txt);font-family:'DM Mono',monospace;font-size:11px;outline:none;transition:border-color .2s}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--gd)}
+.fi textarea{font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.9;resize:vertical;min-height:260px}
+.btn{background:var(--gd);color:#f5e8c8;border:none;border-radius:7px;padding:11px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;justify-content:center;width:100%}
+.btn:hover:not(:disabled){background:var(--gold);color:var(--dark)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.pbar{background:var(--s2);border-radius:2px;height:2px;margin:12px 0;overflow:hidden}
+.pfill{height:100%;background:var(--gd);border-radius:2px;transition:width .5s}
+.ldg{text-align:center;padding:6px;color:var(--tdd);font-style:italic;font-size:13px}
+.tabs-wrap{border-bottom:1px solid var(--bdr);background:var(--s1);display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{padding:10px 13px;font-size:9px;font-family:'DM Mono',monospace;color:var(--tdd);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .tab:hover{color:var(--txt)}
 .tab.on{color:var(--gold);border-bottom-color:var(--gold)}
-.tbody{display:none;padding:16px 20px;overflow-y:auto;max-height:calc(100vh - 140px)}
-.tbody.on{display:block}
-
-/* GİRİŞ PANELİ */
-.input-panel{max-width:800px}
-.lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--tdd);margin-bottom:8px}
-.row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.fi label{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);display:block;margin-bottom:3px;letter-spacing:.06em}
-.fi input,.fi select,.fi textarea{width:100%;background:var(--s2);border:1px solid var(--bdr);border-radius:6px;padding:7px 10px;color:var(--txt);font-family:'DM Mono',monospace;font-size:11px;outline:none;transition:border-color .2s}
-.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--gd)}
-.fi select option{background:var(--s2)}
-.fi textarea{font-family:'Crimson Pro',serif;font-size:14px;line-height:1.8;resize:vertical;min-height:280px}
-
-/* PAGE PREVIEW */
-.page-preview{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:20px;margin-bottom:12px;font-family:'Crimson Pro',serif;font-size:14px;line-height:1.9;color:var(--txt);max-height:300px;overflow-y:auto;white-space:pre-wrap}
-.page-preview-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-
-.btn{background:var(--gd);color:#f5e8c8;border:none;border-radius:7px;padding:10px 20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.05em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;justify-content:center;margin-top:10px;width:100%}
-.btn:hover{background:var(--gold);color:var(--dark)}
-.btn:disabled{opacity:.35;cursor:not-allowed}
-.btn-sm{width:auto;padding:6px 14px;margin-top:0;font-size:10px}
-
-.pbar{background:var(--s2);border-radius:3px;height:2px;margin:10px 0;overflow:hidden}
-.pfill{height:100%;background:var(--gd);border-radius:3px;transition:width .4s}
-.ldg{text-align:center;padding:20px;color:var(--tdd);font-style:italic;font-size:13px}
-
-/* ORTAK */
-.cpbtn{background:var(--s3);color:var(--td);border:1px solid var(--bdr);border-radius:4px;padding:2px 9px;font-family:'DM Mono',monospace;font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-body{display:none;padding:20px 24px;max-width:900px;margin:0 auto}
+.tab-body.on{display:block}
+.prose{font-size:15px;line-height:2;color:var(--txt);white-space:pre-wrap;background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:18px}
+.sblock{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.sblock h3{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.sblock p{font-size:15px;line-height:1.9;color:var(--txt)}
+.tip{margin-top:8px;font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);padding:5px 10px;border-left:2px solid var(--bdr2)}
+.box{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:13px 15px;margin-bottom:10px}
+.btxt{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);line-height:1.9;white-space:pre-wrap}
+.top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cpbtn{background:var(--s3);color:var(--td);border:1px solid var(--bdr);border-radius:4px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:9px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .cpbtn:hover{background:var(--bdr);color:var(--txt)}
 .cpbtn.ok{background:var(--grnd);color:#6abf80;border-color:var(--grn)}
-.top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.prose{font-size:14px;line-height:2;color:var(--txt);white-space:pre-wrap;background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:16px}
-.sblock{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:13px 14px;margin-bottom:10px}
-.sblock h3{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
-.sblock p{font-size:14px;line-height:1.9;color:var(--txt)}
-.tip{margin-top:7px;font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);padding:5px 9px;border-left:2px solid var(--bdr2)}
-.box{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;margin-bottom:10px}
-.btxt{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);line-height:1.8;white-space:pre-wrap}
-.card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;margin-bottom:8px;overflow:hidden}
-.card-hdr{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;background:var(--s3);transition:background .15s}
-.card-hdr:hover{background:var(--bdr)}
-.cnum{width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--gd);color:#f5e8c8;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px}
-.ctim{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);min-width:58px}
-.cprev{font-size:11px;color:var(--td);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.carr{color:var(--tdd);font-size:9px;transition:transform .2s}
-.card.op .carr{transform:rotate(90deg)}
-.card-body{display:none}
-.card.op .card-body{display:block}
-.ctxt{padding:9px 12px;font-style:italic;font-size:13px;color:var(--td);border-bottom:1px solid var(--bdr);background:var(--s1);line-height:1.7}
-.psec{border-bottom:1px solid var(--bdr)}
-.psec:last-child{border-bottom:none}
-.phdr{display:flex;align-items:center;justify-content:space-between;padding:6px 12px 2px}
-.plbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.06em}
-.ptxt{font-family:'DM Mono',monospace;font-size:10px;line-height:1.7;color:var(--txt);padding:4px 12px 9px;cursor:pointer}
-.ptxt:hover{background:var(--s3)}
-.enote{padding:6px 12px;font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);background:var(--s1);border-top:1px solid var(--bdr)}
-.tag{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;padding:1px 5px;border-radius:3px;margin:0 2px}
-.t-e{background:#3a1818;color:#e08080;border:1px solid #8c3a3a}
-.t-s{background:#182838;color:#80b0e0;border:1px solid #3a6a8c}
-.t-m{background:#1e3828;color:#80c090;border:1px solid #4a8c5c}
-.t-k{background:#38280e;color:#e0b060;border:1px solid #8c6a2a}
-.yt-title{font-size:15px;color:var(--txt);font-weight:600;margin-bottom:6px}
-.yt-desc{font-size:13px;color:var(--td);line-height:1.8;white-space:pre-wrap;margin-bottom:10px}
-.yt-tags{display:flex;flex-wrap:wrap;gap:5px}
-.yt-tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;background:var(--s3);border:1px solid var(--bdr);border-radius:8px;color:var(--td)}
-.sm-card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:11px 13px;margin-bottom:8px}
-.sm-plat{font-family:'DM Mono',monospace;font-size:9px;color:var(--gd);margin-bottom:5px}
-.tema-card{background:var(--s3);border-left:3px solid var(--gold);padding:12px 14px;border-radius:0 8px 8px 0;margin-bottom:10px}
-.duygu{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;padding:1px 6px;border-radius:8px;margin-left:6px}
+.duygu{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;padding:1px 7px;border-radius:8px}
 .d-gizem{background:#2a1838;color:#c090e0;border:1px solid #6a3a8c}
 .d-guc{background:#3a1818;color:#e08080;border:1px solid #8c3a3a}
 .d-huzur{background:#1e3828;color:#80c090;border:1px solid #4a8c5c}
 .d-merak{background:#182838;color:#80b0e0;border:1px solid #3a6a8c}
 .d-derin{background:#38280e;color:#e0b060;border:1px solid #8c6a2a}
+.card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.card-hdr{display:flex;align-items:center;gap:8px;padding:10px 13px;cursor:pointer;background:var(--s3);transition:background .15s}
+.card-hdr:hover{background:var(--bdr)}
+.cnum{width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--gd);color:#f5e8c8;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px}
+.ctim{font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);min-width:55px}
+.cprev{font-size:11px;color:var(--td);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.carr{color:var(--tdd);font-size:9px;transition:transform .2s}
+.card.op .carr{transform:rotate(90deg)}
+.card-body{display:none;padding:12px}
+.card.op .card-body{display:block}
+.ctxt{padding:8px 12px;font-style:italic;font-size:13px;color:var(--td);border-bottom:1px solid var(--bdr);background:var(--s1);line-height:1.7;margin-bottom:8px;border-radius:4px}
+.psec{margin-bottom:8px}
+.phdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.plbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.06em}
+.ptxt{font-family:'DM Mono',monospace;font-size:10px;line-height:1.7;color:var(--txt);padding:7px 10px;background:var(--s1);border-radius:4px;cursor:pointer;border:1px solid var(--bdr)}
+.ptxt:hover{background:var(--s3)}
+.enote{padding:5px 10px;font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);border-top:1px solid var(--bdr);margin-top:8px}
+.tag{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;padding:1px 5px;border-radius:3px;margin:0 2px}
+.t-e{background:#3a1818;color:#e08080;border:1px solid #8c3a3a}
+.t-s{background:#182838;color:#80b0e0;border:1px solid #3a6a8c}
+.t-m{background:#1e3828;color:#80c090;border:1px solid #4a8c5c}
+.t-k{background:#38280e;color:#e0b060;border:1px solid #8c6a2a}
 .muzik-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--s2);border:1px solid var(--bdr);border-radius:6px;margin-bottom:4px}
 .muzik-sure{font-family:'DM Mono',monospace;font-size:9px;color:var(--gd);min-width:80px}
-.muzik-mood{font-size:12px;color:var(--txt);flex:1}
+.muzik-mood{font-size:13px;color:var(--txt);flex:1}
 .int-wrap{display:flex;gap:2px}
 .int-dot{width:7px;height:7px;border-radius:50%;background:var(--bdr2)}
 .int-dot.on{background:var(--gold)}
+.yt-title{font-size:16px;color:var(--txt);font-weight:600;margin-bottom:6px}
+.yt-desc{font-size:14px;color:var(--td);line-height:1.9;white-space:pre-wrap;margin-bottom:10px}
+.yt-tags{display:flex;flex-wrap:wrap;gap:5px}
+.yt-tag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 8px;background:var(--s3);border:1px solid var(--bdr);border-radius:8px;color:var(--td)}
+.sm-card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+.sm-plat{font-family:'DM Mono',monospace;font-size:9px;color:var(--gd)}
+.tema-card{background:var(--s3);border-left:3px solid var(--gold);padding:13px 16px;border-radius:0 8px 8px 0;margin-bottom:10px}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:var(--s1)}
 ::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
@@ -151,130 +95,57 @@ body{background:var(--dark);color:var(--txt);font-family:'Crimson Pro',Georgia,s
 </head>
 <body>
 
-<!-- API KEY MODAL -->
-<div id="api-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:999;align-items:center;justify-content:center">
-  <div style="background:var(--s2);border:1px solid var(--bdr2);border-radius:12px;padding:28px;max-width:420px;width:90%">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.1em;margin-bottom:8px">API KEY GEREKLİ</div>
-    <div style="font-size:13px;color:var(--td);margin-bottom:16px;line-height:1.7">Uygulamanın çalışması için Anthropic API key'in gerekiyor.<br><br>console.anthropic.com → API Keys → Create Key</div>
-    <div class="fi" style="margin-bottom:12px">
-      <label>API KEY (sk-ant-... ile başlar)</label>
-      <input id="api-key-input" type="password" placeholder="sk-ant-api03-..." style="font-family:'DM Mono',monospace;font-size:11px">
-    </div>
-    <button class="btn" onclick="saveApiKey()">Kaydet & Devam Et</button>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);margin-top:10px">🔒 Key sadece tarayıcında saklanır, hiçbir yere gönderilmez.</div>
-  </div>
-</div>
-
 <div class="hdr">
-  <div class="logo">Kadim Logos<small>Content Studio V1</small></div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <div id="pdf-status" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd)">PDF yüklenmedi</div>
-    <label style="cursor:pointer">
-      <span class="cpbtn" style="padding:4px 12px;font-size:9px" id="pdf-btn-label">📄 PDF Yükle</span>
-      <input type="file" id="pdf-input" accept=".pdf" style="display:none" onchange="loadPDF(this)">
-    </label>
-    <button class="cpbtn" style="padding:4px 12px;font-size:9px" id="api-key-status" onclick="showApiModal()">🔑 API Key</button>
-    <span class="v">büyükturgutoğlu</span>
+  <div class="logo">Kadim Logos<small>Content Studio V2</small></div>
+  <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd)">büyükturgutoğlu</span>
+</div>
+
+<!-- GİRİŞ -->
+<div id="screen-input" style="padding:28px 24px;max-width:900px;margin:0 auto">
+  <div class="grid4">
+    <div class="fi"><label>GÜN NO</label><input id="i-gun" type="number" min="1" max="366" placeholder="87"></div>
+    <div class="fi"><label>TARİH</label><input id="i-tarih" placeholder="27 Mart 2026"></div>
+    <div class="fi"><label>FİLOZOF</label><input id="i-fil" placeholder="Marcus Aurelius"></div>
+    <div class="fi"><label>AY TEMASI</label><input id="i-tema" value="Farkındalık"></div>
+  </div>
+  <div class="grid2">
+    <div class="fi"><label>KONU BAŞLIĞI</label><input id="i-konu" placeholder="Kitaptaki başlığı yaz"></div>
+    <div class="fi"><label>FORMAT</label>
+      <select id="i-fmt"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Reels</option></select>
+    </div>
+  </div>
+  <div class="fi" style="margin-bottom:16px">
+    <label>KİTAP SAYFASI METNİ</label>
+    <textarea id="i-metin" placeholder="Kitabın sayfasını buraya yapıştır — alıntı, paragraflar, hepsi birlikte."></textarea>
+  </div>
+  <button class="btn" id="ubtn" onclick="uret()">⟡ Tüm İçerikleri Üret</button>
+  <div id="pwrap" style="display:none;margin-top:12px">
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+    <div class="ldg" id="ltxt">Analiz ediliyor...</div>
   </div>
 </div>
 
-<!-- TAKVİM EKRANI -->
-<div class="screen on" id="screen-cal">
-  <div class="cal-header">
-    <div>
-      <div class="cal-title">366 Günlük Yolculuk</div>
-      <div class="cal-sub">Stoacının Günlüğü · 2026</div>
-    </div>
-    <div class="cal-legend">
-      <div class="leg"><div class="leg-dot s-empty" style="border:1px solid #5a5040"></div>Üretilmedi</div>
-      <div class="leg"><div class="leg-dot s-yellow"></div>İçerik hazır</div>
-      <div class="leg"><div class="leg-dot s-blue"></div>Video hazır</div>
-      <div class="leg"><div class="leg-dot s-green"></div>Yayınlandı</div>
-    </div>
+<!-- ÇIKTI -->
+<div id="screen-output" style="display:none">
+  <div style="padding:10px 24px;background:var(--s1);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between">
+    <button class="cpbtn" onclick="geriDon()" style="padding:5px 14px">← Yeni İçerik</button>
+    <span id="out-baslik" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold)"></span>
   </div>
-
-  <div class="month-tabs" id="month-tabs"></div>
-  <div class="cal-grid" id="cal-grid"></div>
-</div>
-
-<!-- STÜDİO EKRANI -->
-<div class="screen" id="screen-studio">
-  <div class="studio-header">
-    <button class="back-btn" onclick="goBack()">← Takvim</button>
-    <div>
-      <div class="studio-day" id="s-day-label"></div>
-      <div class="studio-title" id="s-title-label"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-left:auto">
-      <button class="btn btn-sm" onclick="updateStatus('yellow')" style="background:var(--amb)">İçerik ✓</button>
-      <button class="btn btn-sm" onclick="updateStatus('blue')" style="background:var(--blu)">Video ✓</button>
-      <button class="btn btn-sm" onclick="updateStatus('green')" style="background:var(--grn)">Yayın ✓</button>
-    </div>
+  <div class="tabs-wrap">
+    <div class="tab on" onclick="swTab(0)">📖 Okuma</div>
+    <div class="tab" onclick="swTab(1)">🎬 Senaryo</div>
+    <div class="tab" onclick="swTab(2)">🎭 Görsel</div>
+    <div class="tab" onclick="swTab(3)">🖼 Higgsfield</div>
+    <div class="tab" onclick="swTab(4)">✂️ CapCut</div>
+    <div class="tab" onclick="swTab(5)">🎵 Müzik</div>
+    <div class="tab" onclick="swTab(6)">▶️ YouTube</div>
+    <div class="tab" onclick="swTab(7)">⚡ SM</div>
+    <div class="tab" onclick="swTab(8)">📅 Tema</div>
   </div>
-
-  <div class="tabs" id="studio-tabs">
-    <div class="tab on" onclick="swTab(0)">Giriş</div>
-    <div class="tab" onclick="swTab(1)">📖 Okuma</div>
-    <div class="tab" onclick="swTab(2)">🎬 Senaryo</div>
-    <div class="tab" onclick="swTab(3)">🎭 Görsel</div>
-    <div class="tab" onclick="swTab(4)">🖼 Higgsfield</div>
-    <div class="tab" onclick="swTab(5)">✂️ CapCut</div>
-    <div class="tab" onclick="swTab(6)">🎵 Müzik</div>
-    <div class="tab" onclick="swTab(7)">▶️ YouTube</div>
-    <div class="tab" onclick="swTab(8)">⚡ SM</div>
-    <div class="tab" onclick="swTab(9)">📅 Tema</div>
-  </div>
-
-  <!-- TAB 0: GİRİŞ -->
-  <div class="tbody on" id="t0">
-    <div class="input-panel">
-      <div class="lbl">Kitap Sayfası Metni</div>
-      <div id="page-preview-wrap" style="display:none">
-        <div class="page-preview-header">
-          <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gd)">SAYFA ÖNİZLEME</span>
-          <button class="cpbtn" onclick="document.getElementById('page-preview-wrap').style.display='none'">Kapat</button>
-        </div>
-        <div class="page-preview" id="page-preview-content"></div>
-      </div>
-      <div class="fi" style="margin-bottom:12px">
-        <textarea id="i-metin" placeholder="Kitabın sayfasını buraya yapıştır...&#10;&#10;Tüm metni — alıntı, paragraflar, hepsi birlikte."></textarea>
-      </div>
-      <div class="row4">
-        <div class="fi"><label>GÜN NO</label><input id="i-gun" type="number" min="1" max="366"></div>
-        <div class="fi"><label>TARİH</label><input id="i-tarih"></div>
-        <div class="fi"><label>FİLOZOF</label><input id="i-fil"></div>
-        <div class="fi"><label>AY TEMASI</label><input id="i-tema" value="Farkındalık"></div>
-      </div>
-      <div class="row2" id="pdf-page-row" style="display:none">
-        <div class="fi">
-          <label>PDF SAYFA NO <span style="color:var(--tdd);font-size:8px">(manuel gir)</span></label>
-          <div style="display:flex;gap:6px;align-items:center">
-            <input id="i-pdfpage" type="number" min="1" placeholder="örn. 103" style="flex:1">
-            <button class="cpbtn" style="padding:6px 12px;font-size:10px" onclick="fetchPDFPage()">Sayfayı Getir</button>
-          </div>
-        </div>
-        <div class="fi"><label>FORMAT</label>
-          <select id="i-fmt2"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Reels</option></select>
-        </div>
-      </div>
-      <div class="row2" id="normal-konu-row">
-        <div class="fi"><label>KONU BAŞLIĞI</label><input id="i-konu"></div>
-        <div class="fi"><label>FORMAT</label>
-          <select id="i-fmt"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Reels</option></select>
-        </div>
-      </div>
-      <button class="btn" id="ubtn" onclick="uret()">⟡ Tüm İçerikleri Üret</button>
-      <div id="pwrap" style="display:none">
-        <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
-        <div class="ldg" id="ltxt">Analiz ediliyor...</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tbody" id="t1"><div class="top-row"><div class="lbl">Ses Kaydı İçin Okuma Metni</div><button class="cpbtn" onclick="cpEl('out-okuma',event)">Tamamını Kopyala</button></div><div class="prose" id="out-okuma"></div></div>
-  <div class="tbody" id="t2"><div class="lbl" style="margin-bottom:10px">Video Senaryosu</div><div id="out-senaryo"></div></div>
-  <div class="tbody" id="t3"><div class="lbl" style="margin-bottom:10px">Tiyatral Görsel Senaryo</div><div id="out-gorsel"></div></div>
-  <div class="tbody" id="t4">
+  <div class="tab-body on" id="t0"><div class="top-row"><span class="lbl">Ses Kaydı İçin Okuma Metni</span><button class="cpbtn" onclick="cpEl('out-okuma',event)">Tamamını Kopyala</button></div><div class="prose" id="out-okuma"></div></div>
+  <div class="tab-body" id="t1"><div class="lbl" style="margin-bottom:10px">Video Senaryosu</div><div id="out-senaryo"></div></div>
+  <div class="tab-body" id="t2"><div class="lbl" style="margin-bottom:10px">Tiyatral Görsel Senaryo</div><div id="out-gorsel"></div></div>
+  <div class="tab-body" id="t3">
     <div class="box" style="margin-bottom:8px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
         <span style="font-family:'DM Mono',monospace;font-size:9px;color:#6abf80">SABİT STİL</span>
@@ -282,185 +153,140 @@ body{background:var(--dark);color:var(--txt);font-family:'Crimson Pro',Georgia,s
       </div>
       <div class="btxt">Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark</div>
     </div>
-    <div class="box" style="background:var(--redd);margin-bottom:12px">
+    <div class="box" style="background:#1a0e0e;margin-bottom:14px">
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:#e08080;margin-bottom:5px">NEGATİF</div>
       <div class="btxt" style="color:#e0c0c0">modern clothing, cars, text, watermark, anime, cartoon, cold colors, neon, digital artifacts, close-up face only</div>
     </div>
     <div id="out-hig"></div>
   </div>
-  <div class="tbody" id="t5"><div class="lbl" style="margin-bottom:10px">CapCut Edit Rehberi</div><div id="out-cc"></div></div>
-  <div class="tbody" id="t6"><div class="lbl" style="margin-bottom:10px">Müzik JSON</div><div id="out-muzik"></div></div>
-  <div class="tbody" id="t7"><div class="lbl" style="margin-bottom:10px">YouTube Paketi</div><div id="out-yt"></div></div>
-  <div class="tbody" id="t8"><div class="lbl" style="margin-bottom:10px">Shorts & Sosyal Medya</div><div id="out-sm"></div></div>
-  <div class="tbody" id="t9"><div class="lbl" style="margin-bottom:10px">Ay Teması</div><div id="out-tema"></div></div>
+  <div class="tab-body" id="t4"><div class="lbl" style="margin-bottom:10px">CapCut Edit Rehberi</div><div id="out-cc"></div></div>
+  <div class="tab-body" id="t5"><div class="lbl" style="margin-bottom:10px">Müzik JSON</div><div id="out-muzik"></div></div>
+  <div class="tab-body" id="t6"><div class="lbl" style="margin-bottom:10px">YouTube Paketi</div><div id="out-yt"></div></div>
+  <div class="tab-body" id="t7"><div class="lbl" style="margin-bottom:10px">Shorts & Sosyal Medya</div><div id="out-sm"></div></div>
+  <div class="tab-body" id="t8"><div class="lbl" style="margin-bottom:10px">Ay Teması</div><div id="out-tema"></div></div>
 </div>
 
 <script>
-// ═══════════════════════════
-// VERİ
-// ═══════════════════════════
-const AYLAR=[
-  {ad:"Ocak",gun:31,baslangic:1},
-  {ad:"Şubat",gun:29,baslangic:32},
-  {ad:"Mart",gun:31,baslangic:61},
-  {ad:"Nisan",gun:30,baslangic:92},
-  {ad:"Mayıs",gun:31,baslangic:122},
-  {ad:"Haziran",gun:30,baslangic:153},
-  {ad:"Temmuz",gun:31,baslangic:183},
-  {ad:"Ağustos",gun:31,baslangic:214},
-  {ad:"Eylül",gun:30,baslangic:245},
-  {ad:"Ekim",gun:31,baslangic:275},
-  {ad:"Kasım",gun:30,baslangic:306},
-  {ad:"Aralık",gun:31,baslangic:336}
-];
-
-const AY_TEMALARI={
-  "Ocak":"Açıklık","Şubat":"Tutkular & Duygular","Mart":"Farkındalık","Nisan":"Tarafsız Düşünce",
-  "Mayıs":"Haklı Eylem","Haziran":"Problem Çözme","Temmuz":"Görev","Ağustos":"Pragmatizm",
-  "Eylül":"Metanet & Direniş","Ekim":"Erdem & Nezaket","Kasım":"Kabullenme","Aralık":"Fanilik"
-};
-
-// localStorage
-function getArsiv(){try{return JSON.parse(localStorage.getItem('kl_arsiv')||'{}')}catch{return{}}}
-function saveArsiv(a){localStorage.setItem('kl_arsiv',JSON.stringify(a))}
-function getStatus(gun){return(getArsiv()[gun]||{}).status||'empty'}
-function setStatus(gun,s){const a=getArsiv();if(!a[gun])a[gun]={};a[gun].status=s;saveArsiv(a)}
-function saveVeri(gun,veri){const a=getArsiv();if(!a[gun])a[gun]={};a[gun].veri=veri;saveArsiv(a)}
-function getVeri(gun){return(getArsiv()[gun]||{}).veri||null}
-
-let aktifAy=2; // Mart (0-indexed)
-let aktifGun=null;
-
-// ═══════════════════════════
-// TAKVİM
-// ═══════════════════════════
-function initCal(){
-  const tabs=document.getElementById('month-tabs');
-  tabs.innerHTML=AYLAR.map((a,i)=>`<div class="mtab${i===aktifAy?' on':''}" onclick="setAy(${i})">${a.ad}</div>`).join('');
-  renderGrid();
-}
-
-function setAy(i){
-  aktifAy=i;
-  document.querySelectorAll('.mtab').forEach((t,j)=>t.classList.toggle('on',j===i));
-  renderGrid();
-}
-
-function renderGrid(){
-  const ay=AYLAR[aktifAy];
-  const grid=document.getElementById('cal-grid');
-  const gunler=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
-  let html=gunler.map(g=>`<div class="cal-day-header">${g}</div>`).join('');
-
-  // 2026'da her ayın ilk gününün hangi gün olduğu
-  const ilkGunlar=[3,6,6,2,4,7,2,5,1,3,6,1]; // Pazartesi=0
-  const bosluk=ilkGunlar[aktifAy];
-  for(let i=0;i<bosluk;i++) html+=`<div class="cal-day empty"></div>`;
-
-  const bugun=new Date();
-  const bugunAy=bugun.getMonth();
-  const bugunGunNo=bugun.getDate();
-
-  for(let g=1;g<=ay.gun;g++){
-    const gunNo=ay.baslangic+g-1;
-    const st=getStatus(gunNo);
-    const dotClass=st==='yellow'?'s-yellow':st==='blue'?'s-blue':st==='green'?'s-green':'s-empty';
-    const todayClass=(aktifAy===bugunAy&&g===bugunGunNo)?' today':'';
-    html+=`<div class="cal-day${todayClass}" onclick="openDay(${gunNo},'${ay.ad}',${g})">
-      <div class="cal-day-num">${g}</div>
-      <div class="status-dot ${dotClass}"></div>
-    </div>`;
-  }
-  grid.innerHTML=html;
-}
-
-function openDay(gunNo,ayAd,gunGun){
-  aktifGun=gunNo;
-  document.getElementById('screen-cal').classList.remove('on');
-  document.getElementById('screen-studio').classList.add('on');
-  document.getElementById('s-day-label').textContent=`GÜN ${gunNo} · ${gunGun} ${ayAd} 2026`;
-  document.getElementById('s-title-label').textContent='İçerik Stüdyosu';
-  document.getElementById('i-gun').value=gunNo;
-  document.getElementById('i-tarih').value=`${gunGun} ${ayAd} 2026`;
-  document.getElementById('i-tema').value=AY_TEMALARI[ayAd]||'Farkındalık';
-  swTab(0);
-
-  // Kayıtlı veri varsa yükle
-  const veri=getVeri(gunNo);
-  if(veri){
-    renderAll(veri);
-    if(veri.okuma_metni) document.getElementById('i-metin').value=veri.okuma_metni.substring(0,200)+'...';
-    document.getElementById('s-title-label').textContent=veri.konu||'İçerik Stüdyosu';
-  }
-}
-
-function goBack(){
-  document.getElementById('screen-studio').classList.remove('on');
-  document.getElementById('screen-cal').classList.add('on');
-  renderGrid();
-}
-
-function updateStatus(s){
-  if(!aktifGun)return;
-  const map={yellow:'yellow',blue:'blue',green:'green'};
-  setStatus(aktifGun,map[s]);
-  renderGrid();
-}
-
-// ═══════════════════════════
-// STÜDİO TABS
-// ═══════════════════════════
-function swTab(i){
-  document.querySelectorAll('#studio-tabs .tab').forEach((t,j)=>t.classList.toggle('on',j===i));
-  document.querySelectorAll('.tbody').forEach((b,j)=>b.classList.toggle('on',j===i));
-}
-
-// ═══════════════════════════
-// AI ÜRETİM
-// ═══════════════════════════
 const STIL="Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark";
+
+function swTab(i){
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',j===i));
+  document.querySelectorAll('.tab-body').forEach((b,j)=>b.classList.toggle('on',j===i));
+}
+function geriDon(){
+  document.getElementById('screen-output').style.display='none';
+  document.getElementById('screen-input').style.display='block';
+}
+function tc(id){document.getElementById(id).classList.toggle('op');}
+function esc(s){return(s||'').replace(/`/g,'\\`').replace(/\$/g,'\\$').replace(/\n/g,'\\n');}
+function cpTxt(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const o=btn.textContent;btn.textContent='✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1500);
+  });
+}
+function cpEl(id,ev){
+  const text=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    ev.target.textContent='✓ Kopyalandı';ev.target.classList.add('ok');
+    setTimeout(()=>{ev.target.textContent='Tamamını Kopyala';ev.target.classList.remove('ok');},1500);
+  });
+}
 
 async function uret(){
   const metin=document.getElementById('i-metin').value.trim();
-  if(!metin){alert('Lütfen sayfanın metnini yapıştır.');return;}
-  const gun=document.getElementById('i-gun').value;
-  const tarih=document.getElementById('i-tarih').value;
+  if(!metin){alert('Lütfen sayfa metnini yapıştır.');return;}
+  const gun=document.getElementById('i-gun').value||'?';
+  const tarih=document.getElementById('i-tarih').value||'?';
   const fil=document.getElementById('i-fil').value||'—';
   const konu=document.getElementById('i-konu').value||'—';
-  const tema=document.getElementById('i-tema').value;
+  const tema=document.getElementById('i-tema').value||'Farkındalık';
 
   document.getElementById('ubtn').disabled=true;
   document.getElementById('pwrap').style.display='block';
   const pf=document.getElementById('pfill');
   const lt=document.getElementById('ltxt');
-
-  const adimlar=[[10,'Sayfa analiz ediliyor...'],[25,'Senaryo yazılıyor...'],[42,'Görsel sahneler üretiliyor...'],[58,'Higgsfield promptları hazırlanıyor...'],[72,'CapCut rehberi oluşturuluyor...'],[84,'YouTube & SM içerikleri...'],[93,'Müzik JSON hazırlanıyor...']];
+  const steps=[[12,'Sayfa analiz ediliyor...'],[28,'Senaryo yazılıyor...'],[44,'Görseller hazırlanıyor...'],[60,'Higgsfield promptları...'],[74,'CapCut rehberi...'],[86,'YouTube & SM...'],[94,'Müzik JSON...']];
   let ai=0;
-  const tick=setInterval(()=>{if(ai<adimlar.length){pf.style.width=adimlar[ai][0]+'%';lt.textContent=adimlar[ai][1];ai++;}},2000);
+  const tick=setInterval(()=>{if(ai<steps.length){pf.style.width=steps[ai][0]+'%';lt.textContent=steps[ai][1];ai++;}},2200);
 
-  const sys=`Sen Kadim Logos adlı Türkçe felsefe YouTube kanalı için içerik üretiyorsun.
-Kanal: Her gün Stoacının Günlüğü'nden 1 sayfa okunuyor. Yağlıboya antik stil görseller (Higgsfield AI).
+  const sys=`Sen Kadim Logos Türkçe felsefe YouTube kanalı için içerik üretiyorsun.
+Her gün Stoacının Günlüğü kitabından 1 sayfa okunuyor. Görsel stil: Higgsfield AI, yağlıboya antik.
 Sabit stil: "${STIL}"
 Ay teması: ${tema}
 
-Sadece geçerli JSON döndür, başka metin ekleme:
+SADECE geçerli JSON döndür. Başka metin, açıklama veya markdown ekleme:
 {
-  "konu": "başlık",
-  "filizof": "isim",
-  "okuma_metni": "Giriş+geçiş+alıntı+paragraflar+bağlantı+not+kapanış. Düz metin, sahne etiketi yok. NOT: 'Ben bugün şunu yazdım: [soru]'. Kapanışta yarınki konu.",
-  "senaryo": [{"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"...","ipucu":"..."}],
-  "gorsel_senaryo": [{"no":1,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"..."}],
-  "higgsfield": [{"no":1,"sure":"...","metin":"...","etiket_tr":"...","start":"... ${STIL}","end":"... ${STIL}","hareket":"...","tags":[],"kritik":false,"capcut_notu":"..."}],
-  "capcut": {"filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette","muzik":"Okuma %20, Bağlantı %40, Kapanış %80","altyazi":"Normal beyaz orta-alt, EKRAN büyük merkezi 2sn","gecis":"Cross dissolve 0.5sn","sahneler":[{"sure":"...","tag":"...","not":"..."}]},
-  "muzik_json": {"baslik":"...","sure":"...","stil":"ancient orchestral philosophical","sections":[{"sure":"...","mood":"...","intensity":5,"not":"..."}]},
-  "youtube": {"baslik":"Gün X | Tarih — Başlık | Filozof | Kadim Logos","aciklama":"...","etiketler":["..."]},
-  "shorts": [{"baslik":"...","aciklama":"...","sahne":"..."}],
-  "sosyal_medya": [{"platform":"Instagram","tip":"Reels","metin":"..."},{"platform":"TikTok","tip":"Video","metin":"..."},{"platform":"Instagram","tip":"Story","metin":"..."},{"platform":"Facebook","tip":"Post","metin":"..."}],
-  "ay_temasi": {"ay":"${tema}","bugun":"...","hafta":"...","kanal":"..."}
+  "konu": "kitaptaki başlık",
+  "filizof": "ad",
+  "okuma_metni": "Ses için düz metin. Bölümler sırasıyla: açılış sorusu → kitap+filozof tanıtım → alıntı → tam okuma → güncel bağlantı → not tutma bölümü ('Ben bugün şunu yazdım: [soru] — Cevaplamak zorunda değilsin, soruyu taşımak bile yeterli.') → kapanış ve yarınki konu. Sahne etiketi olmadan akıcı metin.",
+  "senaryo": [
+    {"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"güçlü açılış sorusu veya zıtlık","ipucu":"kamera hareketi notu"},
+    {"bolum":"GEÇİŞ","sure":"0:20-0:35","duygu":"MERAK","icerik":"...","ipucu":"..."},
+    {"bolum":"ALINTI","sure":"0:35-0:50","duygu":"GÜÇLÜ","icerik":"...","ipucu":"..."},
+    {"bolum":"TAM OKUMA","sure":"0:50-1:30","duygu":"DERİN","icerik":"...","ipucu":"..."},
+    {"bolum":"BAĞLANTI","sure":"1:30-1:50","duygu":"HUZUR","icerik":"...","ipucu":"..."},
+    {"bolum":"NOT TUTMA","sure":"1:50-2:03","duygu":"MERAK","icerik":"...","ipucu":"..."},
+    {"bolum":"KAPANIŞ","sure":"2:03-2:25","duygu":"GÜÇLÜ","icerik":"Kadim Logos — her gün burada. Yarınki konumuz: ... Görüşürüz.","ipucu":"..."}
+  ],
+  "gorsel_senaryo": [
+    {"no":1,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GİZEM"},
+    {"no":2,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GÜÇLÜ"},
+    {"no":3,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"HUZUR"}
+  ],
+  "higgsfield": [
+    {"no":1,"sure":"0:00-0:20","metin":"sahne","etiket_tr":"Türkçe etiket","start":"sahne açılışı, ${STIL}","end":"sahne kapanışı, ${STIL}","hareket":"Slow push in","tags":["EKRAN"],"kritik":false,"capcut_notu":"notu"},
+    {"no":2,"sure":"0:20-0:50","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":[],"kritik":true,"capcut_notu":"..."},
+    {"no":3,"sure":"0:50-1:30","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["SOL-SAĞ"],"kritik":false,"capcut_notu":"..."},
+    {"no":4,"sure":"1:30-2:25","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["MUZ"],"kritik":true,"capcut_notu":"..."}
+  ],
+  "capcut": {
+    "filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette hafif",
+    "muzik":"Okuma %20, Bağlantı %40, Kapanış %80",
+    "altyazi":"Normal beyaz orta-alt, EKRAN büyük merkezi 2sn",
+    "gecis":"Cross dissolve 0.5sn, kritik sahneler 1sn",
+    "sahneler":[
+      {"sure":"0:00","tag":"[EKRAN]","not":"Açılış sorusu ekrana yaz"},
+      {"sure":"0:35","tag":"[SOL-SAĞ BAŞLAR]","not":"Kitap sayfası sol %40 overlay"},
+      {"sure":"1:30","tag":"[SOL-SAĞ BİTER]","not":"Tam ekrana dön, 2sn sessizlik"},
+      {"sure":"2:03","tag":"[MÜZİK YUKARI]","not":"Ses %80'e çık"}
+    ]
+  },
+  "muzik_json": {
+    "baslik":"başlık",
+    "sure":"2:25",
+    "stil":"ancient orchestral philosophical",
+    "tempo":"slow ceremonial 60-70 bpm",
+    "sections":[
+      {"sure":"0:00-0:20","mood":"mysterious dark","intensity":2,"not":"Giriş"},
+      {"sure":"0:35-0:50","mood":"tense dramatic","intensity":7,"not":"Alıntı"},
+      {"sure":"1:30-1:50","mood":"warm hopeful","intensity":5,"not":"Bağlantı"},
+      {"sure":"2:03-2:25","mood":"epic triumphant","intensity":10,"not":"Kapanış"}
+    ]
+  },
+  "youtube": {
+    "baslik":"Gün ${gun} | ${tarih} — BAŞLIK | FİLOZOF | Kadim Logos",
+    "aciklama":"açıklama metni",
+    "etiketler":["stoacının günlüğü","stoacılık","felsefe","kadim logos","stoicism türkçe"]
+  },
+  "shorts": [
+    {"baslik":"...","aciklama":"...","sahne":"hangi Higgsfield sahnesi"},
+    {"baslik":"...","aciklama":"...","sahne":"..."},
+    {"baslik":"...","aciklama":"...","sahne":"..."}
+  ],
+  "sosyal_medya": [
+    {"platform":"Instagram","tip":"Reels","metin":"..."},
+    {"platform":"TikTok","tip":"Video","metin":"..."},
+    {"platform":"Instagram","tip":"Story","metin":"..."},
+    {"platform":"Facebook","tip":"Post","metin":"..."}
+  ],
+  "ay_temasi": {
+    "ay":"${tema}",
+    "bugun":"bu günün temayla bağlantısı",
+    "hafta":"bu haftanın yönü",
+    "kanal":"kanalın büyük hikayesindeki yeri"
+  }
 }`;
-
-  const apiKey=getApiKey();
-  if(!apiKey){showApiModal();document.getElementById('ubtn').disabled=false;document.getElementById('pwrap').style.display='none';clearInterval(tick);return;}
 
   try{
     const r=await fetch('/.netlify/functions/claude',{
@@ -470,36 +296,36 @@ Sadece geçerli JSON döndür, başka metin ekleme:
         model:'claude-sonnet-4-20250514',
         max_tokens:4000,
         system:sys,
-        messages:[{role:'user',content:`Gün ${gun} — ${tarih} — ${konu} — ${fil}\n\nSAYFA:\n${metin}`}]
+        messages:[{role:'user',content:`Gün ${gun} — ${tarih} — Konu: ${konu} — Filozof: ${fil}\n\nSAYFA:\n${metin}`}]
       })
     });
     clearInterval(tick);
     pf.style.width='95%';
     lt.textContent='İçerikler yükleniyor...';
     const d=await r.json();
+    if(d.error) throw new Error(d.error.message||JSON.stringify(d.error));
+    if(!d.content||!d.content[0]) throw new Error('Boş yanıt: '+JSON.stringify(d));
     const raw=d.content[0].text;
     const m=raw.match(/\{[\s\S]*\}/);
-    if(!m)throw new Error('JSON parse hatası');
+    if(!m) throw new Error('JSON bulunamadı');
     const p=JSON.parse(m[0]);
-    p.gun=gun;p.tarih=tarih;
-    if(p.konu) document.getElementById('s-title-label').textContent=p.konu;
-    if(p.konu) document.getElementById('i-konu').value=p.konu;
-    if(p.filizof) document.getElementById('i-fil').value=p.filizof;
     renderAll(p);
-    if(aktifGun) saveVeri(aktifGun,p);
-    setStatus(aktifGun,'yellow');
     pf.style.width='100%';
-    setTimeout(()=>{document.getElementById('pwrap').style.display='none';swTab(1);},400);
+    setTimeout(()=>{
+      document.getElementById('pwrap').style.display='none';
+      document.getElementById('screen-input').style.display='none';
+      document.getElementById('screen-output').style.display='block';
+      document.getElementById('out-baslik').textContent=`GÜN ${gun} · ${p.konu||konu}`;
+      swTab(0);
+    },400);
   }catch(e){
     clearInterval(tick);
+    pf.style.width='0%';
     lt.textContent='Hata: '+e.message;
   }
   document.getElementById('ubtn').disabled=false;
 }
 
-// ═══════════════════════════
-// RENDER
-// ═══════════════════════════
 function renderAll(p){
   if(p.okuma_metni) document.getElementById('out-okuma').textContent=p.okuma_metni;
   if(p.senaryo) renderSenaryo(p.senaryo);
@@ -512,62 +338,61 @@ function renderAll(p){
   if(p.ay_temasi) renderTema(p.ay_temasi);
 }
 
-function renderSenaryo(bolumler){
-  const duyguClass={'GİZEM':'d-gizem','GÜÇLÜ':'d-guc','HUZUR':'d-huzur','MERAK':'d-merak','DERİN':'d-derin'};
-  document.getElementById('out-senaryo').innerHTML=bolumler.map(b=>`
+function renderSenaryo(b){
+  const dc={'GİZEM':'d-gizem','GÜÇLÜ':'d-guc','HUZUR':'d-huzur','MERAK':'d-merak','DERİN':'d-derin'};
+  document.getElementById('out-senaryo').innerHTML=b.map(s=>`
     <div class="sblock">
-      <h3>${b.bolum} <span style="color:var(--gd)">${b.sure||''}</span>${b.duygu?`<span class="duygu ${duyguClass[b.duygu]||'d-merak'}">${b.duygu}</span>`:''}</h3>
-      <p>${(b.icerik||'').replace(/\n/g,'<br>')}</p>
-      ${b.ipucu?`<div class="tip">✦ ${b.ipucu}</div>`:''}
+      <h3>${s.bolum} <span style="color:var(--gd);font-size:9px">${s.sure||''}</span>${s.duygu?`<span class="duygu ${dc[s.duygu]||'d-merak'}">${s.duygu}</span>`:''}</h3>
+      <p>${(s.icerik||'').replace(/\n/g,'<br>')}</p>
+      ${s.ipucu?`<div class="tip">✦ ${s.ipucu}</div>`:''}
     </div>`).join('');
 }
 
-function renderGorsel(sahneler){
-  document.getElementById('out-gorsel').innerHTML=sahneler.map(s=>`
+function renderGorsel(s){
+  document.getElementById('out-gorsel').innerHTML=s.map(x=>`
     <div class="sblock" style="border-left:3px solid var(--pur)">
-      <h3>🎭 SAHNE ${s.no} — ${s.baslik||''} <span class="duygu d-gizem">${s.duygu||''}</span></h3>
-      ${s.atmosfer?`<p><strong style="color:var(--gold)">Atmosfer:</strong> ${s.atmosfer}</p>`:''}
-      ${s.sahne?`<p style="margin-top:6px"><strong style="color:var(--gold)">Sahne:</strong> ${s.sahne}</p>`:''}
-      ${s.mesaj?`<p style="margin-top:6px"><strong style="color:var(--gold)">Mesaj:</strong> ${s.mesaj}</p>`:''}
+      <h3>🎭 SAHNE ${x.no} — ${x.baslik||''} ${x.duygu?`<span class="duygu d-gizem">${x.duygu}</span>`:''}</h3>
+      ${x.atmosfer?`<p><strong style="color:var(--gold)">Atmosfer:</strong> ${x.atmosfer}</p>`:''}
+      ${x.sahne?`<p style="margin-top:6px"><strong style="color:var(--gold)">Sahne:</strong> ${x.sahne}</p>`:''}
+      ${x.mesaj?`<p style="margin-top:6px"><strong style="color:var(--gold)">Mesaj:</strong> ${x.mesaj}</p>`:''}
     </div>`).join('');
 }
 
-function renderHig(sahneler){
-  document.getElementById('out-hig').innerHTML=sahneler.map((s,i)=>{
-    const tags=(s.tags||[]).map(t=>{
-      if(t.startsWith('EKRAN'))return'<span class="tag t-e">EKRAN</span>';
-      if(t.includes('SOL'))return'<span class="tag t-s">SOL-SAĞ</span>';
-      if(t.includes('MUZ'))return'<span class="tag t-m">MÜZİK↑</span>';
+function renderHig(s){
+  document.getElementById('out-hig').innerHTML=s.map((x,i)=>{
+    const tags=(x.tags||[]).map(t=>{
+      if(t==='EKRAN') return'<span class="tag t-e">EKRAN</span>';
+      if(t.includes('SOL')) return'<span class="tag t-s">SOL-SAĞ</span>';
+      if(t.includes('MUZ')) return'<span class="tag t-m">MÜZİK↑</span>';
       return`<span class="tag t-k">${t}</span>`;
     }).join('');
     const id=`hc${i}`;
     return`<div class="card" id="${id}">
       <div class="card-hdr" onclick="tc('${id}')">
-        <div class="cnum">${s.no||i+1}</div>
-        <div class="ctim">${s.sure||''}</div>
-        <div class="cprev">${tags}${s.kritik?'<span class="tag t-k">★</span>':''} <span style="font-size:10px;color:var(--td)">${s.etiket_tr||''}</span></div>
+        <div class="cnum">${x.no||i+1}</div><div class="ctim">${x.sure||''}</div>
+        <div class="cprev">${tags}${x.kritik?'<span class="tag t-k">★</span>':''} <span style="font-size:10px;color:var(--td)">${x.etiket_tr||''}</span></div>
         <div class="carr">▶</div>
       </div>
       <div class="card-body">
-        <div class="ctxt">${(s.metin||'').replace(/\n/g,'<br>')}</div>
-        <div class="psec"><div class="phdr"><span class="plbl" style="color:#6abf80">START FRAME</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(s.start)}\`)">Kopyala</button></div><div class="ptxt" onclick="cpTxt(this,\`${esc(s.start)}\`)">${s.start||''}</div></div>
-        <div class="psec"><div class="phdr"><span class="plbl" style="color:#a08fd0">END FRAME</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(s.end)}\`)">Kopyala</button></div><div class="ptxt" onclick="cpTxt(this,\`${esc(s.end)}\`)">${s.end||''}</div></div>
-        <div class="psec"><div class="phdr"><span class="plbl" style="color:#e0b060">MOVEMENT</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(s.hareket)}\`)">Kopyala</button></div><div class="ptxt" onclick="cpTxt(this,\`${esc(s.hareket)}\`)">${s.hareket||''}</div></div>
-        <div class="enote">✦ ${s.capcut_notu||''}</div>
+        <div class="ctxt">${(x.metin||'').replace(/\n/g,'<br>')}</div>
+        <div class="psec"><div class="phdr"><span class="plbl" style="color:#6abf80">START</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(x.start)}\`)">Kopyala</button></div><div class="ptxt">${x.start||''}</div></div>
+        <div class="psec"><div class="phdr"><span class="plbl" style="color:#a08fd0">END</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(x.end)}\`)">Kopyala</button></div><div class="ptxt">${x.end||''}</div></div>
+        <div class="psec"><div class="phdr"><span class="plbl" style="color:#e0b060">MOVEMENT</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(x.hareket)}\`)">Kopyala</button></div><div class="ptxt">${x.hareket||''}</div></div>
+        <div class="enote">✦ ${x.capcut_notu||''}</div>
       </div></div>`;
   }).join('');
 }
 
 function renderCC(cc){
   let html=`<div class="box"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:8px">GENEL</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--td);line-height:2">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--td);line-height:2">
       <div><span style="color:var(--tdd);font-family:'DM Mono',monospace;font-size:9px">FİLTRE </span>${cc.filtre||'—'}</div>
       <div><span style="color:var(--tdd);font-family:'DM Mono',monospace;font-size:9px">MÜZİK </span>${cc.muzik||'—'}</div>
       <div><span style="color:var(--tdd);font-family:'DM Mono',monospace;font-size:9px">ALTYAZI </span>${cc.altyazi||'—'}</div>
       <div><span style="color:var(--tdd);font-family:'DM Mono',monospace;font-size:9px">GEÇİŞ </span>${cc.gecis||'—'}</div>
     </div></div>`;
   if(cc.sahneler) html+=(cc.sahneler||[]).map(s=>`
-    <div class="box" style="padding:10px 12px">
+    <div class="box" style="padding:10px 13px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
         <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gd)">${s.sure}</span>
         <span class="tag t-e">${s.tag}</span>
@@ -578,15 +403,14 @@ function renderCC(cc){
 }
 
 function renderMuzik(mj){
-  const jsonStr=JSON.stringify(mj,null,2);
+  const js=JSON.stringify(mj,null,2);
   let html=`<div class="box"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-    <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold)">JSON — Suno / Udio'ya Yapıştır</span>
-    <button class="cpbtn" onclick="cpTxt(this,\`${esc(jsonStr)}\`)">Kopyala</button>
-  </div><div class="btxt">${jsonStr}</div></div>`;
-  if(mj.sections) html+=`<div class="lbl" style="margin-bottom:8px">Yoğunluk</div>`+(mj.sections||[]).map(s=>`
+    <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold)">JSON — Suno / Udio</span>
+    <button class="cpbtn" onclick="cpTxt(this,\`${esc(js)}\`)">Kopyala</button>
+  </div><div class="btxt">${js}</div></div>`;
+  if(mj.sections) html+=`<div class="lbl" style="margin:12px 0 8px">Yoğunluk</div>`+(mj.sections||[]).map(s=>`
     <div class="muzik-bar">
-      <div class="muzik-sure">${s.sure}</div>
-      <div class="muzik-mood">${s.mood}</div>
+      <div class="muzik-sure">${s.sure}</div><div class="muzik-mood">${s.mood}</div>
       <div class="int-wrap">${Array.from({length:10},(_,i)=>`<div class="int-dot${i<(s.intensity||5)?' on':''}"></div>`).join('')}</div>
     </div>`).join('');
   document.getElementById('out-muzik').innerHTML=html;
@@ -595,136 +419,22 @@ function renderMuzik(mj){
 function renderYT(yt){
   document.getElementById('out-yt').innerHTML=`
     <div class="box"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold)">BAŞLIK</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(yt.baslik||'')}\`)">Kopyala</button></div><div class="yt-title">${yt.baslik||''}</div></div>
-    <div class="box"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold)">AÇIKLAMA</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(yt.aciklama||'')}\`)">Kopyala</button></div><div class="yt-desc">${yt.aciklama||''}</div></div>
+    <div class="box"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold)">AÇIKLAMA</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(yt.aciklama||'')}\`)">Kopyala</button></div><div class="yt-desc">${(yt.aciklama||'').replace(/\n/g,'<br>')}</div></div>
     <div class="box"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:8px">ETİKETLER</div><div class="yt-tags">${(yt.etiketler||[]).map(t=>`<span class="yt-tag">#${t}</span>`).join('')}</div></div>`;
 }
 
 function renderSM(shorts,sm){
   let html='';
-  if(shorts.length){
-    html+=`<div class="lbl" style="margin-bottom:8px">Shorts Önerileri</div>`;
-    html+=shorts.map(s=>`<div class="sm-card"><div style="font-size:13px;color:var(--gold);margin-bottom:4px">⚡ ${s.baslik||''}</div><div style="font-size:13px;color:var(--td);line-height:1.7">${s.aciklama||''}</div>${s.sahne?`<div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);margin-top:5px">${s.sahne}</div>`:''}</div>`).join('');
-  }
-  if(sm.length){
-    html+=`<div class="lbl" style="margin:14px 0 8px">Sosyal Medya</div>`;
-    html+=sm.map(s=>`<div class="sm-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="sm-plat">${s.platform} · ${s.tip}</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(s.metin||'')}\`)">Kopyala</button></div><div style="font-size:13px;color:var(--td);line-height:1.7;margin-top:6px;white-space:pre-wrap">${(s.metin||'').replace(/\n/g,'<br>')}</div></div>`).join('');
-  }
+  if(shorts.length){html+=`<div class="lbl" style="margin-bottom:8px">Shorts</div>`;html+=shorts.map(s=>`<div class="sm-card"><div style="font-size:14px;color:var(--gold);margin-bottom:4px">⚡ ${s.baslik||''}</div><div style="font-size:14px;color:var(--td);line-height:1.8">${s.aciklama||''}</div>${s.sahne?`<div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd);margin-top:5px">📍 ${s.sahne}</div>`:''}</div>`).join('');}
+  if(sm.length){html+=`<div class="lbl" style="margin:16px 0 8px">Sosyal Medya</div>`;html+=sm.map(s=>`<div class="sm-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><span class="sm-plat">${s.platform} · ${s.tip}</span><button class="cpbtn" onclick="cpTxt(this,\`${esc(s.metin||'')}\`)">Kopyala</button></div><div style="font-size:14px;color:var(--td);line-height:1.8;white-space:pre-wrap">${(s.metin||'').replace(/\n/g,'<br>')}</div></div>`).join('');}
   document.getElementById('out-sm').innerHTML=html||'<div style="color:var(--tdd);font-style:italic">İçerik üretilmedi.</div>';
 }
 
 function renderTema(t){
   document.getElementById('out-tema').innerHTML=`
-    <div class="tema-card"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:5px">MART · ${t.ay||''}</div><div style="font-size:14px;color:var(--txt);line-height:1.9">${t.bugun||''}</div></div>
+    <div class="tema-card"><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-bottom:5px">MART · ${t.ay||''}</div><div style="font-size:15px;color:var(--txt);line-height:1.9">${t.bugun||''}</div></div>
     ${t.hafta?`<div class="sblock"><h3>Bu Haftanın Yönü</h3><p>${t.hafta}</p></div>`:''}
     ${t.kanal?`<div class="sblock"><h3>Kanalın Büyük Hikayesi</h3><p>${t.kanal}</p></div>`:''}`;
-}
-
-// ═══════════════════════════
-// YARDIMCI
-// ═══════════════════════════
-function tc(id){document.getElementById(id).classList.toggle('op');}
-function esc(s){return(s||'').replace(/`/g,'\\`').replace(/\$/g,'\\$').replace(/\n/g,'\\n');}
-function cpTxt(btn,text){
-  navigator.clipboard.writeText(text).then(()=>{
-    const o=btn.textContent;btn.textContent='✓';btn.classList.add('ok');
-    setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1500);
-  });
-}
-function cpEl(id,ev){
-  const text=document.getElementById(id).innerText||document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    ev.target.textContent='✓ Kopyalandı';ev.target.classList.add('ok');
-    setTimeout(()=>{ev.target.textContent='Tamamını Kopyala';ev.target.classList.remove('ok');},1500);
-  });
-}
-
-// ═══════════════════════════
-// API KEY YÖNETİMİ
-// ═══════════════════════════
-function getApiKey(){return localStorage.getItem('kl_apikey')||'';}
-function saveApiKey(){
-  const k=document.getElementById('api-key-input').value.trim();
-  if(!k.startsWith('sk-')){alert('Geçersiz key. sk-ant- ile başlamalı.');return;}
-  localStorage.setItem('kl_apikey',k);
-  hideApiModal();
-  document.getElementById('api-key-status').textContent='🔑 Key ✓';
-  document.getElementById('api-key-status').style.color='#4a8c5c';
-}
-function showApiModal(){
-  const m=document.getElementById('api-modal');
-  m.style.display='flex';
-  const existing=getApiKey();
-  if(existing) document.getElementById('api-key-input').value=existing;
-}
-function hideApiModal(){document.getElementById('api-modal').style.display='none';}
-
-// ═══════════════════════════
-// PDF SİSTEMİ
-// ═══════════════════════════
-let pdfDoc = null;
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-async function loadPDF(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const status = document.getElementById('pdf-status');
-  const btnLabel = document.getElementById('pdf-btn-label');
-  status.textContent = 'Yükleniyor...';
-  status.style.color = 'var(--gold)';
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    status.textContent = `✓ ${file.name} (${pdfDoc.numPages} sayfa)`;
-    status.style.color = '#4a8c5c';
-    btnLabel.textContent = '📄 PDF Değiştir';
-    // PDF yüklendiyse sayfa alanını göster
-    document.getElementById('pdf-page-row').style.display = 'grid';
-    document.getElementById('normal-konu-row').style.display = 'none';
-  } catch (e) {
-    status.textContent = 'Hata: ' + e.message;
-    status.style.color = '#8c3a3a';
-  }
-}
-
-async function fetchPDFPage() {
-  if (!pdfDoc) { alert('Önce PDF yükle.'); return; }
-  const pageNum = parseInt(document.getElementById('i-pdfpage').value);
-  if (!pageNum || pageNum < 1) { alert('Geçerli bir sayfa numarası gir.'); return; }
-  if (pageNum > pdfDoc.numPages) { alert(`PDF sadece ${pdfDoc.numPages} sayfa içeriyor.`); return; }
-  const btn = event.target;
-  btn.textContent = '...';
-  try {
-    const page = await pdfDoc.getPage(pageNum);
-    const content = await page.getTextContent();
-    const text = content.items.map(item => item.str).join(' ').replace(/\s+/g, ' ').trim();
-    document.getElementById('i-metin').value = text;
-    document.getElementById('page-preview-content').textContent = text;
-    document.getElementById('page-preview-wrap').style.display = 'block';
-    btn.textContent = '✓ Getirildi';
-    setTimeout(() => { btn.textContent = 'Sayfayı Getir'; }, 2000);
-  } catch (e) {
-    alert('Sayfa okunamadı: ' + e.message);
-    btn.textContent = 'Sayfayı Getir';
-  }
-}
-
-// i-konu için yardımcı — iki farklı row var
-function getKonu() {
-  const v1 = document.getElementById('i-konu').value;
-  return v1 || '';
-}
-
-// ═══════════════════════════
-// BAŞLAT
-// ═══════════════════════════
-initCal();
-// Key varsa butonu yeşil göster, yoksa modal aç
-if(getApiKey()){
-  document.getElementById('api-key-status').textContent='🔑 Key ✓';
-  document.getElementById('api-key-status').style.color='#4a8c5c';
-} else {
-  showApiModal();
 }
 </script>
 </body>
