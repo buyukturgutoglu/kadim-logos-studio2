@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kadim Logos — Content Studio</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--gold:#C9A84C;--gd:#8B6914;--dark:#0f0e0c;--s1:#1a1815;--s2:#242018;--s3:#2e2a22;--txt:#e8e0cc;--td:#8a7e68;--tdd:#4a4438;--bdr:#3a3428;--bdr2:#5a5040;--grn:#4a8c5c;--grnd:#1e3828;--red:#8c3a3a;--redd:#3a1818;--blu:#3a6a8c;--bludd:#182838;--amb:#8c6a2a;--ambd:#38280e;--pur:#6a3a8c;--purd:#2a1838}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -152,7 +153,14 @@ body{background:var(--dark);color:var(--txt);font-family:'Crimson Pro',Georgia,s
 
 <div class="hdr">
   <div class="logo">Kadim Logos<small>Content Studio V1</small></div>
-  <span class="v">büyükturgutoğlu</span>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div id="pdf-status" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd)">PDF yüklenmedi</div>
+    <label style="cursor:pointer">
+      <span class="cpbtn" style="padding:4px 12px;font-size:9px" id="pdf-btn-label">📄 PDF Yükle</span>
+      <input type="file" id="pdf-input" accept=".pdf" style="display:none" onchange="loadPDF(this)">
+    </label>
+    <span class="v">büyükturgutoğlu</span>
+  </div>
 </div>
 
 <!-- TAKVİM EKRANI -->
@@ -222,7 +230,19 @@ body{background:var(--dark);color:var(--txt);font-family:'Crimson Pro',Georgia,s
         <div class="fi"><label>FİLOZOF</label><input id="i-fil"></div>
         <div class="fi"><label>AY TEMASI</label><input id="i-tema" value="Farkındalık"></div>
       </div>
-      <div class="row2">
+      <div class="row2" id="pdf-page-row" style="display:none">
+        <div class="fi">
+          <label>PDF SAYFA NO <span style="color:var(--tdd);font-size:8px">(manuel gir)</span></label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input id="i-pdfpage" type="number" min="1" placeholder="örn. 103" style="flex:1">
+            <button class="cpbtn" style="padding:6px 12px;font-size:10px" onclick="fetchPDFPage()">Sayfayı Getir</button>
+          </div>
+        </div>
+        <div class="fi"><label>FORMAT</label>
+          <select id="i-fmt2"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Reels</option></select>
+        </div>
+      </div>
+      <div class="row2" id="normal-konu-row">
         <div class="fi"><label>KONU BAŞLIĞI</label><input id="i-konu"></div>
         <div class="fi"><label>FORMAT</label>
           <select id="i-fmt"><option value="16:9">16:9 YouTube</option><option value="9:16">9:16 Reels</option></select>
@@ -430,7 +450,7 @@ Sadece geçerli JSON döndür, başka metin ekleme:
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
+        max_tokens:4000,
         system:sys,
         messages:[{role:'user',content:`Gün ${gun} — ${tarih} — ${konu} — ${fil}\n\nSAYFA:\n${metin}`}]
       })
@@ -598,6 +618,63 @@ function cpEl(id,ev){
     ev.target.textContent='✓ Kopyalandı';ev.target.classList.add('ok');
     setTimeout(()=>{ev.target.textContent='Tamamını Kopyala';ev.target.classList.remove('ok');},1500);
   });
+}
+
+// ═══════════════════════════
+// PDF SİSTEMİ
+// ═══════════════════════════
+let pdfDoc = null;
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+async function loadPDF(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('pdf-status');
+  const btnLabel = document.getElementById('pdf-btn-label');
+  status.textContent = 'Yükleniyor...';
+  status.style.color = 'var(--gold)';
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    status.textContent = `✓ ${file.name} (${pdfDoc.numPages} sayfa)`;
+    status.style.color = '#4a8c5c';
+    btnLabel.textContent = '📄 PDF Değiştir';
+    // PDF yüklendiyse sayfa alanını göster
+    document.getElementById('pdf-page-row').style.display = 'grid';
+    document.getElementById('normal-konu-row').style.display = 'none';
+  } catch (e) {
+    status.textContent = 'Hata: ' + e.message;
+    status.style.color = '#8c3a3a';
+  }
+}
+
+async function fetchPDFPage() {
+  if (!pdfDoc) { alert('Önce PDF yükle.'); return; }
+  const pageNum = parseInt(document.getElementById('i-pdfpage').value);
+  if (!pageNum || pageNum < 1) { alert('Geçerli bir sayfa numarası gir.'); return; }
+  if (pageNum > pdfDoc.numPages) { alert(`PDF sadece ${pdfDoc.numPages} sayfa içeriyor.`); return; }
+  const btn = event.target;
+  btn.textContent = '...';
+  try {
+    const page = await pdfDoc.getPage(pageNum);
+    const content = await page.getTextContent();
+    const text = content.items.map(item => item.str).join(' ').replace(/\s+/g, ' ').trim();
+    document.getElementById('i-metin').value = text;
+    document.getElementById('page-preview-content').textContent = text;
+    document.getElementById('page-preview-wrap').style.display = 'block';
+    btn.textContent = '✓ Getirildi';
+    setTimeout(() => { btn.textContent = 'Sayfayı Getir'; }, 2000);
+  } catch (e) {
+    alert('Sayfa okunamadı: ' + e.message);
+    btn.textContent = 'Sayfayı Getir';
+  }
+}
+
+// i-konu için yardımcı — iki farklı row var
+function getKonu() {
+  const v1 = document.getElementById('i-konu').value;
+  return v1 || '';
 }
 
 // ═══════════════════════════
