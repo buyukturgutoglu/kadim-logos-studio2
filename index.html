@@ -463,9 +463,9 @@ Sadece geçerli JSON döndür, başka metin ekleme:
   if(!apiKey){showApiModal();document.getElementById('ubtn').disabled=false;document.getElementById('pwrap').style.display='none';clearInterval(tick);return;}
 
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('/.netlify/functions/claude',{
       method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:4000,
