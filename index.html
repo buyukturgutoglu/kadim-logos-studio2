@@ -26,14 +26,18 @@ body{background:var(--dark);color:var(--txt);font-family:'Cormorant Garamond',Ge
 .btn{background:var(--gd);color:#f5e8c8;border:none;border-radius:7px;padding:11px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;justify-content:center;width:100%}
 .btn:hover:not(:disabled){background:var(--gold);color:var(--dark)}
 .btn:disabled{opacity:.35;cursor:not-allowed}
-.pbar{background:var(--s2);border-radius:2px;height:2px;margin:12px 0;overflow:hidden}
-.pfill{height:100%;background:var(--gd);border-radius:2px;transition:width .5s}
-.ldg{text-align:center;padding:6px;color:var(--tdd);font-style:italic;font-size:13px}
 .tabs-wrap{border-bottom:1px solid var(--bdr);background:var(--s1);display:flex;overflow-x:auto;scrollbar-width:none}
 .tabs-wrap::-webkit-scrollbar{display:none}
-.tab{padding:10px 13px;font-size:9px;font-family:'DM Mono',monospace;color:var(--tdd);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.tab{padding:10px 13px;font-size:9px;font-family:'DM Mono',monospace;color:var(--tdd);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0;position:relative}
 .tab:hover{color:var(--txt)}
 .tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab.done{color:var(--grn)}
+.tab.done.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab.loading{color:var(--gd)}
+.tab-badge{position:absolute;top:6px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--grn);display:none}
+.tab.done .tab-badge{display:block}
+.tab.loading .tab-badge{display:block;background:var(--gold);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 .tab-body{display:none;padding:20px 24px;max-width:900px;margin:0 auto}
 .tab-body.on{display:block}
 .prose{font-size:15px;line-height:2;color:var(--txt);white-space:pre-wrap;background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:18px}
@@ -88,6 +92,28 @@ body{background:var(--dark);color:var(--txt);font-family:'Cormorant Garamond',Ge
 .sm-card{background:var(--s2);border:1px solid var(--bdr);border-radius:8px;padding:12px 14px;margin-bottom:8px}
 .sm-plat{font-family:'DM Mono',monospace;font-size:9px;color:var(--gd)}
 .tema-card{background:var(--s3);border-left:3px solid var(--gold);padding:13px 16px;border-radius:0 8px 8px 0;margin-bottom:10px}
+
+/* TAB ÜRET BUTONU */
+.tab-uret-wrap{padding:14px 24px;max-width:900px;margin:0 auto;border-bottom:1px solid var(--bdr)}
+.tab-uret-btn{background:var(--s2);color:var(--gold);border:1px solid var(--gd);border-radius:7px;padding:9px 20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.tab-uret-btn:hover:not(:disabled){background:var(--gd);color:#f5e8c8}
+.tab-uret-btn:disabled{opacity:.35;cursor:not-allowed}
+.tab-uret-btn.done-btn{background:var(--grnd);color:#6abf80;border-color:var(--grn);cursor:default}
+
+/* YÜKLEME SPINNER */
+.spin{display:inline-block;width:10px;height:10px;border:1.5px solid var(--bdr2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HATA KUTUSU */
+.err-box{background:#1a0a0a;border:1px solid #8c3a3a;border-radius:8px;padding:12px 15px;color:#e08080;font-family:'DM Mono',monospace;font-size:11px;line-height:1.8}
+.retry-btn{margin-top:10px;background:#3a1818;color:#e08080;border:1px solid #8c3a3a;border-radius:5px;padding:5px 14px;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer}
+.retry-btn:hover{background:#5a2828}
+
+/* GİRİŞ EKRANI ÜRETİM BUTONU */
+.btn-all{background:var(--gd);color:#f5e8c8;border:none;border-radius:7px;padding:11px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.06em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;justify-content:center;width:100%}
+.btn-all:hover:not(:disabled){background:var(--gold);color:var(--dark)}
+.btn-all:disabled{opacity:.35;cursor:not-allowed}
+
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:var(--s1)}
 ::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
@@ -96,11 +122,11 @@ body{background:var(--dark);color:var(--txt);font-family:'Cormorant Garamond',Ge
 <body>
 
 <div class="hdr">
-  <div class="logo">Kadim Logos<small>Content Studio V2</small></div>
+  <div class="logo">Kadim Logos<small>Content Studio V3</small></div>
   <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tdd)">büyükturgutoğlu</span>
 </div>
 
-<!-- GİRİŞ -->
+<!-- GİRİŞ EKRANI -->
 <div id="screen-input" style="padding:28px 24px;max-width:900px;margin:0 auto">
   <div class="grid4">
     <div class="fi"><label>GÜN NO</label><input id="i-gun" type="number" min="1" max="366" placeholder="87"></div>
@@ -118,57 +144,134 @@ body{background:var(--dark);color:var(--txt);font-family:'Cormorant Garamond',Ge
     <label>KİTAP SAYFASI METNİ</label>
     <textarea id="i-metin" placeholder="Kitabın sayfasını buraya yapıştır — alıntı, paragraflar, hepsi birlikte."></textarea>
   </div>
-  <button class="btn" id="ubtn" onclick="uret()">⟡ Tüm İçerikleri Üret</button>
-  <div id="pwrap" style="display:none;margin-top:12px">
-    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
-    <div class="ldg" id="ltxt">Analiz ediliyor...</div>
-  </div>
+  <button class="btn-all" id="ubtn" onclick="basla()">⟡ İçerik Üretimine Başla</button>
 </div>
 
-<!-- ÇIKTI -->
+<!-- ÇIKTI EKRANI -->
 <div id="screen-output" style="display:none">
   <div style="padding:10px 24px;background:var(--s1);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between">
     <button class="cpbtn" onclick="geriDon()" style="padding:5px 14px">← Yeni İçerik</button>
     <span id="out-baslik" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold)"></span>
   </div>
-  <div class="tabs-wrap">
-    <div class="tab on" onclick="swTab(0)">📖 Okuma</div>
-    <div class="tab" onclick="swTab(1)">🎬 Senaryo</div>
-    <div class="tab" onclick="swTab(2)">🎭 Görsel</div>
-    <div class="tab" onclick="swTab(3)">🖼 Higgsfield</div>
-    <div class="tab" onclick="swTab(4)">✂️ CapCut</div>
-    <div class="tab" onclick="swTab(5)">🎵 Müzik</div>
-    <div class="tab" onclick="swTab(6)">▶️ YouTube</div>
-    <div class="tab" onclick="swTab(7)">⚡ SM</div>
-    <div class="tab" onclick="swTab(8)">📅 Tema</div>
+
+  <div class="tabs-wrap" id="tabs-wrap">
+    <div class="tab on" onclick="swTab(0)" id="tab0">📖 Okuma<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(1)" id="tab1">🎬 Senaryo<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(2)" id="tab2">🎭 Görsel<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(3)" id="tab3">🖼 Higgsfield<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(4)" id="tab4">✂️ CapCut<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(5)" id="tab5">🎵 Müzik<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(6)" id="tab6">▶️ YouTube<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(7)" id="tab7">⚡ SM<div class="tab-badge"></div></div>
+    <div class="tab" onclick="swTab(8)" id="tab8">📅 Tema<div class="tab-badge"></div></div>
   </div>
-  <div class="tab-body on" id="t0"><div class="top-row"><span class="lbl">Ses Kaydı İçin Okuma Metni</span><button class="cpbtn" onclick="cpEl('out-okuma',event)">Tamamını Kopyala</button></div><div class="prose" id="out-okuma"></div></div>
-  <div class="tab-body" id="t1"><div class="lbl" style="margin-bottom:10px">Video Senaryosu</div><div id="out-senaryo"></div></div>
-  <div class="tab-body" id="t2"><div class="lbl" style="margin-bottom:10px">Tiyatral Görsel Senaryo</div><div id="out-gorsel"></div></div>
+
+  <!-- TAB 0: OKUMA -->
+  <div class="tab-body on" id="t0">
+    <div id="t0-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn0" onclick="uretTab(0)">⟡ Okuma Metnini Üret</button>
+    </div>
+    <div class="top-row" style="padding:14px 24px 0;max-width:900px;margin:0 auto">
+      <span class="lbl">Ses Kaydı İçin Okuma Metni</span>
+      <button class="cpbtn" onclick="cpEl('out-okuma',event)">Tamamını Kopyala</button>
+    </div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto">
+      <div class="prose" id="out-okuma" style="min-height:80px"></div>
+    </div>
+  </div>
+
+  <!-- TAB 1: SENARYO -->
+  <div class="tab-body" id="t1">
+    <div id="t1-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn1" onclick="uretTab(1)">⟡ Senaryo Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">Video Senaryosu</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-senaryo"></div></div>
+  </div>
+
+  <!-- TAB 2: GÖRSEL -->
+  <div class="tab-body" id="t2">
+    <div id="t2-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn2" onclick="uretTab(2)">⟡ Görsel Senaryo Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">Tiyatral Görsel Senaryo</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-gorsel"></div></div>
+  </div>
+
+  <!-- TAB 3: HİGGSFİELD -->
   <div class="tab-body" id="t3">
-    <div class="box" style="margin-bottom:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <span style="font-family:'DM Mono',monospace;font-size:9px;color:#6abf80">SABİT STİL</span>
-        <button class="cpbtn" onclick="cpTxt(this,'Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark')">Kopyala</button>
+    <div id="t3-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn3" onclick="uretTab(3)">⟡ Higgsfield Promptları Üret</button>
+    </div>
+    <div style="padding:14px 24px 20px;max-width:900px;margin:0 auto">
+      <div class="box" style="margin-bottom:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <span style="font-family:'DM Mono',monospace;font-size:9px;color:#6abf80">SABİT STİL</span>
+          <button class="cpbtn" onclick="cpTxt(this,'Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark')">Kopyala</button>
+        </div>
+        <div class="btxt">Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark</div>
       </div>
-      <div class="btxt">Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark</div>
+      <div class="box" style="background:#1a0e0e;margin-bottom:14px">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:#e08080;margin-bottom:5px">NEGATİF</div>
+        <div class="btxt" style="color:#e0c0c0">modern clothing, cars, text, watermark, anime, cartoon, cold colors, neon, digital artifacts, close-up face only</div>
+      </div>
+      <div id="out-hig"></div>
     </div>
-    <div class="box" style="background:#1a0e0e;margin-bottom:14px">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:#e08080;margin-bottom:5px">NEGATİF</div>
-      <div class="btxt" style="color:#e0c0c0">modern clothing, cars, text, watermark, anime, cartoon, cold colors, neon, digital artifacts, close-up face only</div>
-    </div>
-    <div id="out-hig"></div>
   </div>
-  <div class="tab-body" id="t4"><div class="lbl" style="margin-bottom:10px">CapCut Edit Rehberi</div><div id="out-cc"></div></div>
-  <div class="tab-body" id="t5"><div class="lbl" style="margin-bottom:10px">Müzik JSON</div><div id="out-muzik"></div></div>
-  <div class="tab-body" id="t6"><div class="lbl" style="margin-bottom:10px">YouTube Paketi</div><div id="out-yt"></div></div>
-  <div class="tab-body" id="t7"><div class="lbl" style="margin-bottom:10px">Shorts & Sosyal Medya</div><div id="out-sm"></div></div>
-  <div class="tab-body" id="t8"><div class="lbl" style="margin-bottom:10px">Ay Teması</div><div id="out-tema"></div></div>
+
+  <!-- TAB 4: CAPCUT -->
+  <div class="tab-body" id="t4">
+    <div id="t4-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn4" onclick="uretTab(4)">⟡ CapCut Rehberi Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">CapCut Edit Rehberi</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-cc"></div></div>
+  </div>
+
+  <!-- TAB 5: MÜZİK -->
+  <div class="tab-body" id="t5">
+    <div id="t5-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn5" onclick="uretTab(5)">⟡ Müzik JSON Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">Müzik JSON</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-muzik"></div></div>
+  </div>
+
+  <!-- TAB 6: YOUTUBE -->
+  <div class="tab-body" id="t6">
+    <div id="t6-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn6" onclick="uretTab(6)">⟡ YouTube Paketi Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">YouTube Paketi</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-yt"></div></div>
+  </div>
+
+  <!-- TAB 7: SM -->
+  <div class="tab-body" id="t7">
+    <div id="t7-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn7" onclick="uretTab(7)">⟡ Shorts & SM Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">Shorts & Sosyal Medya</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-sm"></div></div>
+  </div>
+
+  <!-- TAB 8: TEMA -->
+  <div class="tab-body" id="t8">
+    <div id="t8-uret" class="tab-uret-wrap">
+      <button class="tab-uret-btn" id="btn8" onclick="uretTab(8)">⟡ Ay Teması Üret</button>
+    </div>
+    <div style="padding:14px 24px 0;max-width:900px;margin:0 auto"><span class="lbl">Ay Teması</span></div>
+    <div style="padding:0 24px 20px;max-width:900px;margin:0 auto"><div id="out-tema"></div></div>
+  </div>
 </div>
 
 <script>
-const STIL="Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark";
+const STIL = "Wide shot, subject centered in frame, oil painting style, ancient Greek setting, dramatic golden backlight, chiaroscuro lighting, warm amber tones, cream and ochre palette, loose brushstroke, classical realism, cinematic composition, 16:9, no text, no watermark";
 
+// Global durum
+let CTX = { gun:'', tarih:'', fil:'', konu:'', tema:'', metin:'' };
+
+// ─── NAVİGASYON ───────────────────────────────────────────────
 function swTab(i){
   document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',j===i));
   document.querySelectorAll('.tab-body').forEach((b,j)=>b.classList.toggle('on',j===i));
@@ -179,6 +282,7 @@ function geriDon(){
 }
 function tc(id){document.getElementById(id).classList.toggle('op');}
 function esc(s){return(s||'').replace(/`/g,'\\`').replace(/\$/g,'\\$').replace(/\n/g,'\\n');}
+
 function cpTxt(btn,text){
   navigator.clipboard.writeText(text).then(()=>{
     const o=btn.textContent;btn.textContent='✓';btn.classList.add('ok');
@@ -193,151 +297,256 @@ function cpEl(id,ev){
   });
 }
 
-async function uret(){
-  const metin=document.getElementById('i-metin').value.trim();
-  if(!metin){alert('Lütfen sayfa metnini yapıştır.');return;}
-  const gun=document.getElementById('i-gun').value||'?';
-  const tarih=document.getElementById('i-tarih').value||'?';
-  const fil=document.getElementById('i-fil').value||'—';
-  const konu=document.getElementById('i-konu').value||'—';
-  const tema=document.getElementById('i-tema').value||'Farkındalık';
+// ─── GİRİŞ: BAŞLA ────────────────────────────────────────────
+function basla(){
+  const metin = document.getElementById('i-metin').value.trim();
+  if(!metin){ alert('Lütfen sayfa metnini yapıştır.'); return; }
 
-  document.getElementById('ubtn').disabled=true;
-  document.getElementById('pwrap').style.display='block';
-  const pf=document.getElementById('pfill');
-  const lt=document.getElementById('ltxt');
-  const steps=[[12,'Sayfa analiz ediliyor...'],[28,'Senaryo yazılıyor...'],[44,'Görseller hazırlanıyor...'],[60,'Higgsfield promptları...'],[74,'CapCut rehberi...'],[86,'YouTube & SM...'],[94,'Müzik JSON...']];
-  let ai=0;
-  const tick=setInterval(()=>{if(ai<steps.length){pf.style.width=steps[ai][0]+'%';lt.textContent=steps[ai][1];ai++;}},2200);
+  CTX = {
+    gun:   document.getElementById('i-gun').value   || '?',
+    tarih: document.getElementById('i-tarih').value || '?',
+    fil:   document.getElementById('i-fil').value   || '—',
+    konu:  document.getElementById('i-konu').value  || '—',
+    tema:  document.getElementById('i-tema').value  || 'Farkındalık',
+    metin: metin
+  };
 
-  const sys=`Sen Kadim Logos Türkçe felsefe YouTube kanalı için içerik üretiyorsun.
-Her gün Stoacının Günlüğü kitabından 1 sayfa okunuyor. Görsel stil: Higgsfield AI, yağlıboya antik.
-Sabit stil: "${STIL}"
-Ay teması: ${tema}
-
-SADECE geçerli JSON döndür. Başka metin, açıklama veya markdown ekleme:
-{
-  "konu": "kitaptaki başlık",
-  "filizof": "ad",
-  "okuma_metni": "Ses için düz metin. Bölümler sırasıyla: açılış sorusu → kitap+filozof tanıtım → alıntı → tam okuma → güncel bağlantı → not tutma bölümü ('Ben bugün şunu yazdım: [soru] — Cevaplamak zorunda değilsin, soruyu taşımak bile yeterli.') → kapanış ve yarınki konu. Sahne etiketi olmadan akıcı metin.",
-  "senaryo": [
-    {"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"güçlü açılış sorusu veya zıtlık","ipucu":"kamera hareketi notu"},
-    {"bolum":"GEÇİŞ","sure":"0:20-0:35","duygu":"MERAK","icerik":"...","ipucu":"..."},
-    {"bolum":"ALINTI","sure":"0:35-0:50","duygu":"GÜÇLÜ","icerik":"...","ipucu":"..."},
-    {"bolum":"TAM OKUMA","sure":"0:50-1:30","duygu":"DERİN","icerik":"...","ipucu":"..."},
-    {"bolum":"BAĞLANTI","sure":"1:30-1:50","duygu":"HUZUR","icerik":"...","ipucu":"..."},
-    {"bolum":"NOT TUTMA","sure":"1:50-2:03","duygu":"MERAK","icerik":"...","ipucu":"..."},
-    {"bolum":"KAPANIŞ","sure":"2:03-2:25","duygu":"GÜÇLÜ","icerik":"Kadim Logos — her gün burada. Yarınki konumuz: ... Görüşürüz.","ipucu":"..."}
-  ],
-  "gorsel_senaryo": [
-    {"no":1,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GİZEM"},
-    {"no":2,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GÜÇLÜ"},
-    {"no":3,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"HUZUR"}
-  ],
-  "higgsfield": [
-    {"no":1,"sure":"0:00-0:20","metin":"sahne","etiket_tr":"Türkçe etiket","start":"sahne açılışı, ${STIL}","end":"sahne kapanışı, ${STIL}","hareket":"Slow push in","tags":["EKRAN"],"kritik":false,"capcut_notu":"notu"},
-    {"no":2,"sure":"0:20-0:50","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":[],"kritik":true,"capcut_notu":"..."},
-    {"no":3,"sure":"0:50-1:30","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["SOL-SAĞ"],"kritik":false,"capcut_notu":"..."},
-    {"no":4,"sure":"1:30-2:25","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["MUZ"],"kritik":true,"capcut_notu":"..."}
-  ],
-  "capcut": {
-    "filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette hafif",
-    "muzik":"Okuma %20, Bağlantı %40, Kapanış %80",
-    "altyazi":"Normal beyaz orta-alt, EKRAN büyük merkezi 2sn",
-    "gecis":"Cross dissolve 0.5sn, kritik sahneler 1sn",
-    "sahneler":[
-      {"sure":"0:00","tag":"[EKRAN]","not":"Açılış sorusu ekrana yaz"},
-      {"sure":"0:35","tag":"[SOL-SAĞ BAŞLAR]","not":"Kitap sayfası sol %40 overlay"},
-      {"sure":"1:30","tag":"[SOL-SAĞ BİTER]","not":"Tam ekrana dön, 2sn sessizlik"},
-      {"sure":"2:03","tag":"[MÜZİK YUKARI]","not":"Ses %80'e çık"}
-    ]
-  },
-  "muzik_json": {
-    "baslik":"başlık",
-    "sure":"2:25",
-    "stil":"ancient orchestral philosophical",
-    "tempo":"slow ceremonial 60-70 bpm",
-    "sections":[
-      {"sure":"0:00-0:20","mood":"mysterious dark","intensity":2,"not":"Giriş"},
-      {"sure":"0:35-0:50","mood":"tense dramatic","intensity":7,"not":"Alıntı"},
-      {"sure":"1:30-1:50","mood":"warm hopeful","intensity":5,"not":"Bağlantı"},
-      {"sure":"2:03-2:25","mood":"epic triumphant","intensity":10,"not":"Kapanış"}
-    ]
-  },
-  "youtube": {
-    "baslik":"Gün ${gun} | ${tarih} — BAŞLIK | FİLOZOF | Kadim Logos",
-    "aciklama":"açıklama metni",
-    "etiketler":["stoacının günlüğü","stoacılık","felsefe","kadim logos","stoicism türkçe"]
-  },
-  "shorts": [
-    {"baslik":"...","aciklama":"...","sahne":"hangi Higgsfield sahnesi"},
-    {"baslik":"...","aciklama":"...","sahne":"..."},
-    {"baslik":"...","aciklama":"...","sahne":"..."}
-  ],
-  "sosyal_medya": [
-    {"platform":"Instagram","tip":"Reels","metin":"..."},
-    {"platform":"TikTok","tip":"Video","metin":"..."},
-    {"platform":"Instagram","tip":"Story","metin":"..."},
-    {"platform":"Facebook","tip":"Post","metin":"..."}
-  ],
-  "ay_temasi": {
-    "ay":"${tema}",
-    "bugun":"bu günün temayla bağlantısı",
-    "hafta":"bu haftanın yönü",
-    "kanal":"kanalın büyük hikayesindeki yeri"
+  // Sekme rozetlerini sıfırla
+  for(let i=0;i<9;i++){
+    const tab = document.getElementById('tab'+i);
+    tab.classList.remove('done','loading');
+    document.getElementById('btn'+i).classList.remove('done-btn');
+    document.getElementById('btn'+i).disabled = false;
+    document.getElementById('btn'+i).innerHTML = TAB_CFG[i].buton_label;
   }
-}`;
 
-  try{
-    const r=await fetch('/.netlify/functions/claude',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:4000,
-        system:sys,
-        messages:[{role:'user',content:`Gün ${gun} — ${tarih} — Konu: ${konu} — Filozof: ${fil}\n\nSAYFA:\n${metin}`}]
+  document.getElementById('screen-input').style.display='none';
+  document.getElementById('screen-output').style.display='block';
+  document.getElementById('out-baslik').textContent = `GÜN ${CTX.gun} · ${CTX.konu}`;
+
+  // Sekme 0'ı göster ve ilk sekmeyi otomatik üret
+  swTab(0);
+  uretTab(0);
+}
+
+// ─── TAB KONFİGÜRASYONU ──────────────────────────────────────
+const TAB_CFG = [
+  {
+    id: 0,
+    buton_label: '⟡ Okuma Metnini Üret',
+    sistem: (c) => `Sen Kadim Logos Türkçe felsefe YouTube kanalı için içerik üretiyorsun.
+Her gün Stoacının Günlüğü kitabından 1 sayfa okunuyor. Ay teması: ${c.tema}
+SADECE geçerli JSON döndür, başka hiçbir metin ekleme:
+{"okuma_metni": "Ses kaydı için akıcı okuma metni. Sırasıyla: güçlü açılış sorusu → kitap+filozof tanıtımı → alıntı → tam okuma → güncel yaşamla bağlantı → not tutma bölümü ('Ben bugün şunu yazdım: [soru] — Cevaplamak zorunda değilsin, soruyu taşımak bile yeterli.') → kapanış ve yarınki konu. Sahne etiketi olmadan akıcı tek metin."}`,
+    parse: (p,c) => { if(p.okuma_metni) document.getElementById('out-okuma').textContent=p.okuma_metni; }
+  },
+  {
+    id: 1,
+    buton_label: '⟡ Senaryo Üret',
+    sistem: (c) => `Sen Kadim Logos Türkçe felsefe YouTube kanalı için video senaryosu yazıyorsun.
+Ay teması: ${c.tema}. Filozof: ${c.fil}. Format: 2:25 dakika.
+SADECE geçerli JSON döndür:
+{"senaryo":[
+  {"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"güçlü açılış sorusu veya zıtlık","ipucu":"kamera hareketi notu"},
+  {"bolum":"GEÇİŞ","sure":"0:20-0:35","duygu":"MERAK","icerik":"...","ipucu":"..."},
+  {"bolum":"ALINTI","sure":"0:35-0:50","duygu":"GÜÇLÜ","icerik":"...","ipucu":"..."},
+  {"bolum":"TAM OKUMA","sure":"0:50-1:30","duygu":"DERİN","icerik":"...","ipucu":"..."},
+  {"bolum":"BAĞLANTI","sure":"1:30-1:50","duygu":"HUZUR","icerik":"...","ipucu":"..."},
+  {"bolum":"NOT TUTMA","sure":"1:50-2:03","duygu":"MERAK","icerik":"...","ipucu":"..."},
+  {"bolum":"KAPANIŞ","sure":"2:03-2:25","duygu":"GÜÇLÜ","icerik":"Kadim Logos — her gün burada. Yarınki konumuz: ... Görüşürüz.","ipucu":"..."}
+]}`,
+    parse: (p) => { if(p.senaryo) renderSenaryo(p.senaryo); }
+  },
+  {
+    id: 2,
+    buton_label: '⟡ Görsel Senaryo Üret',
+    sistem: (c) => `Sen Kadim Logos için tiyatral görsel senaryo yazıyorsun.
+Sabit stil: "${STIL}"
+SADECE geçerli JSON döndür:
+{"gorsel_senaryo":[
+  {"no":1,"baslik":"...","atmosfer":"sahnenin atmosferi","sahne":"sahne tanımı","mesaj":"iletilecek duygu","duygu":"GİZEM"},
+  {"no":2,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GÜÇLÜ"},
+  {"no":3,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"HUZUR"}
+]}`,
+    parse: (p) => { if(p.gorsel_senaryo) renderGorsel(p.gorsel_senaryo); }
+  },
+  {
+    id: 3,
+    buton_label: '⟡ Higgsfield Promptları Üret',
+    sistem: (c) => `Sen Kadim Logos için Higgsfield AI görsel promptları yazıyorsun.
+Sabit stil: "${STIL}"
+Her sahne Soul Cinema ile START+END, Cinema Studio 2.5 ile canlandırılır.
+SADECE geçerli JSON döndür:
+{"higgsfield":[
+  {"no":1,"sure":"0:00-0:20","metin":"sahne tanımı","etiket_tr":"Türkçe kısa etiket","start":"sahne açılışı, ${STIL}","end":"sahne kapanışı, ${STIL}","hareket":"Slow push in","tags":["EKRAN"],"kritik":false,"capcut_notu":"CapCut notu"},
+  {"no":2,"sure":"0:20-0:50","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":[],"kritik":true,"capcut_notu":"..."},
+  {"no":3,"sure":"0:50-1:30","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["SOL-SAĞ"],"kritik":false,"capcut_notu":"..."},
+  {"no":4,"sure":"1:30-2:25","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["MUZ"],"kritik":true,"capcut_notu":"..."}
+]}`,
+    parse: (p) => { if(p.higgsfield) renderHig(p.higgsfield); }
+  },
+  {
+    id: 4,
+    buton_label: '⟡ CapCut Rehberi Üret',
+    sistem: (c) => `Sen Kadim Logos için CapCut edit rehberi yazıyorsun.
+SADECE geçerli JSON döndür:
+{"capcut":{
+  "filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette hafif",
+  "muzik":"Okuma %20, Bağlantı %40, Kapanış %80",
+  "altyazi":"Normal beyaz orta-alt, EKRAN büyük merkezi 2sn",
+  "gecis":"Cross dissolve 0.5sn, kritik sahneler 1sn",
+  "sahneler":[
+    {"sure":"0:00","tag":"[EKRAN]","not":"Açılış sorusu ekrana yaz"},
+    {"sure":"0:35","tag":"[SOL-SAĞ BAŞLAR]","not":"Kitap sayfası sol %40 overlay, opacity %85"},
+    {"sure":"1:30","tag":"[SOL-SAĞ BİTER]","not":"Tam ekrana dön, 2sn sessizlik"},
+    {"sure":"2:03","tag":"[MÜZİK YUKARI]","not":"Ses %80'e çık, kapanış"}
+  ]
+}}`,
+    parse: (p) => { if(p.capcut) renderCC(p.capcut); }
+  },
+  {
+    id: 5,
+    buton_label: '⟡ Müzik JSON Üret',
+    sistem: (c) => `Sen Kadim Logos için Suno/Udio müzik JSON'u yazıyorsun.
+SADECE geçerli JSON döndür:
+{"muzik_json":{
+  "baslik":"başlık",
+  "sure":"2:25",
+  "stil":"ancient orchestral philosophical",
+  "tempo":"slow ceremonial 60-70 bpm",
+  "sections":[
+    {"sure":"0:00-0:20","mood":"mysterious dark","intensity":2,"not":"Giriş"},
+    {"sure":"0:35-0:50","mood":"tense dramatic","intensity":7,"not":"Alıntı"},
+    {"sure":"1:30-1:50","mood":"warm hopeful","intensity":5,"not":"Bağlantı"},
+    {"sure":"2:03-2:25","mood":"epic triumphant","intensity":10,"not":"Kapanış"}
+  ]
+}}`,
+    parse: (p) => { if(p.muzik_json) renderMuzik(p.muzik_json); }
+  },
+  {
+    id: 6,
+    buton_label: '⟡ YouTube Paketi Üret',
+    sistem: (c) => `Sen Kadim Logos için YouTube başlık, açıklama ve etiket yazıyorsun.
+SADECE geçerli JSON döndür:
+{"youtube":{
+  "baslik":"Gün ${c.gun} | ${c.tarih} — KONU BAŞLIĞI | ${c.fil} | Kadim Logos",
+  "aciklama":"açıklama metni (bölümler, linkler, CTA dahil)",
+  "etiketler":["stoacının günlüğü","stoacılık","felsefe","kadim logos","stoicism türkçe","marcus aurelius","epiktetos","seneca"]
+}}`,
+    parse: (p) => { if(p.youtube) renderYT(p.youtube); }
+  },
+  {
+    id: 7,
+    buton_label: '⟡ Shorts & SM Üret',
+    sistem: (c) => `Sen Kadim Logos için Shorts ve sosyal medya içerikleri yazıyorsun.
+SADECE geçerli JSON döndür:
+{"shorts":[
+  {"baslik":"...","aciklama":"...","sahne":"hangi Higgsfield sahnesi"},
+  {"baslik":"...","aciklama":"...","sahne":"..."},
+  {"baslik":"...","aciklama":"...","sahne":"..."}
+],"sosyal_medya":[
+  {"platform":"Instagram","tip":"Reels","metin":"..."},
+  {"platform":"TikTok","tip":"Video","metin":"..."},
+  {"platform":"Instagram","tip":"Story","metin":"..."},
+  {"platform":"Facebook","tip":"Post","metin":"..."}
+]}`,
+    parse: (p) => { if(p.shorts||p.sosyal_medya) renderSM(p.shorts||[],p.sosyal_medya||[]); }
+  },
+  {
+    id: 8,
+    buton_label: '⟡ Ay Teması Üret',
+    sistem: (c) => `Sen Kadim Logos için ay teması bağlantısını yazıyorsun.
+Kanal: Stoacının Günlüğü günlük okuma. Ay: ${c.tema}.
+SADECE geçerli JSON döndür:
+{"ay_temasi":{
+  "ay":"${c.tema}",
+  "bugun":"bu günün ${c.tema} temasıyla bağlantısı",
+  "hafta":"bu haftanın yönü ve odak noktası",
+  "kanal":"kanalın büyük hikayesindeki yeri"
+}}`,
+    parse: (p) => { if(p.ay_temasi) renderTema(p.ay_temasi); }
+  }
+];
+
+// ─── SEKME ÜRET ──────────────────────────────────────────────
+async function uretTab(tabIdx){
+  const cfg = TAB_CFG[tabIdx];
+  const btn = document.getElementById('btn'+tabIdx);
+  const tab = document.getElementById('tab'+tabIdx);
+
+  // Yükleniyor durumu
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spin"></span> Üretiliyor...`;
+  tab.classList.remove('done');
+  tab.classList.add('loading');
+
+  // Hata kutusunu temizle
+  const errId = 'err'+tabIdx;
+  const oldErr = document.getElementById(errId);
+  if(oldErr) oldErr.remove();
+
+  try {
+    const sys = cfg.sistem(CTX);
+    const userMsg = `Gün ${CTX.gun} — ${CTX.tarih} — Konu: ${CTX.konu} — Filozof: ${CTX.fil}\n\nSAYFA METNİ:\n${CTX.metin}`;
+
+    const r = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sys,
+        messages: [{ role: 'user', content: userMsg }]
       })
     });
-    clearInterval(tick);
-    pf.style.width='95%';
-    lt.textContent='İçerikler yükleniyor...';
-    const d=await r.json();
-    if(d.error) throw new Error(d.error.message||JSON.stringify(d.error));
-    if(!d.content||!d.content[0]) throw new Error('Boş yanıt: '+JSON.stringify(d));
-    const raw=d.content[0].text;
-    const m=raw.match(/\{[\s\S]*\}/);
-    if(!m) throw new Error('JSON bulunamadı');
-    const p=JSON.parse(m[0]);
-    renderAll(p);
-    pf.style.width='100%';
-    setTimeout(()=>{
-      document.getElementById('pwrap').style.display='none';
-      document.getElementById('screen-input').style.display='none';
-      document.getElementById('screen-output').style.display='block';
-      document.getElementById('out-baslik').textContent=`GÜN ${gun} · ${p.konu||konu}`;
-      swTab(0);
-    },400);
-  }catch(e){
-    clearInterval(tick);
-    pf.style.width='0%';
-    lt.textContent='Hata: '+e.message;
+
+    const d = await r.json();
+    if(d.error) throw new Error(d.error.message || JSON.stringify(d.error));
+    if(!d.content || !d.content[0]) throw new Error('Boş yanıt');
+
+    const raw = d.content[0].text;
+    const m = raw.match(/\{[\s\S]*\}/);
+    if(!m) throw new Error('JSON bulunamadı: '+raw.slice(0,100));
+    const p = JSON.parse(m[0]);
+
+    cfg.parse(p, CTX);
+
+    // Başarı durumu
+    tab.classList.remove('loading');
+    tab.classList.add('done');
+    btn.classList.add('done-btn');
+    btn.innerHTML = '✓ Tamamlandı';
+
+    // Sonraki sekmeye geç (opsiyonel, son sekme değilse)
+    if(tabIdx < 8){
+      const nextTab = document.getElementById('tab'+(tabIdx+1));
+      const nextBtn = document.getElementById('btn'+(tabIdx+1));
+      if(!nextTab.classList.contains('done')){
+        setTimeout(()=>{
+          swTab(tabIdx+1);
+        }, 600);
+      }
+    }
+
+  } catch(e) {
+    tab.classList.remove('loading');
+    btn.disabled = false;
+    btn.innerHTML = cfg.buton_label;
+
+    // Hata kutusu
+    const uretWrap = document.getElementById('t'+tabIdx+'-uret');
+    const errDiv = document.createElement('div');
+    errDiv.id = errId;
+    errDiv.style.cssText = 'padding:0 24px 14px;max-width:900px;margin:0 auto';
+    errDiv.innerHTML = `<div class="err-box">
+      ⚠ Hata: ${e.message}
+      <br><span style="color:var(--tdd);font-size:10px">Tekrar denemek için butona bas.</span>
+    </div>`;
+    uretWrap.after(errDiv);
   }
-  document.getElementById('ubtn').disabled=false;
 }
 
-function renderAll(p){
-  if(p.okuma_metni) document.getElementById('out-okuma').textContent=p.okuma_metni;
-  if(p.senaryo) renderSenaryo(p.senaryo);
-  if(p.gorsel_senaryo) renderGorsel(p.gorsel_senaryo);
-  if(p.higgsfield) renderHig(p.higgsfield);
-  if(p.capcut) renderCC(p.capcut);
-  if(p.muzik_json) renderMuzik(p.muzik_json);
-  if(p.youtube) renderYT(p.youtube);
-  if(p.shorts||p.sosyal_medya) renderSM(p.shorts||[],p.sosyal_medya||[]);
-  if(p.ay_temasi) renderTema(p.ay_temasi);
-}
-
+// ─── RENDER FONKSİYONLARI ────────────────────────────────────
 function renderSenaryo(b){
   const dc={'GİZEM':'d-gizem','GÜÇLÜ':'d-guc','HUZUR':'d-huzur','MERAK':'d-merak','DERİN':'d-derin'};
   document.getElementById('out-senaryo').innerHTML=b.map(s=>`
