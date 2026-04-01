@@ -1,3 +1,5 @@
+const https = require('https');
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -17,25 +19,32 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body);
-    // max_tokens'ı düşür — daha hızlı yanıt, timeout riski azalır
-    body.max_tokens = 3000;
+    body.max_tokens = 1000;
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 25000);
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal
+    const data = await new Promise((resolve, reject) => {
+      const payload = JSON.stringify(body);
+      const req = https.request({
+        hostname: 'api.anthropic.com',
+        path: '/v1/messages',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+          'x-api-key': process.env.ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01'
+        }
+      }, (res) => {
+        let raw = '';
+        res.on('data', chunk => raw += chunk);
+        res.on('end', () => {
+          try { resolve(JSON.parse(raw)); }
+          catch(e) { reject(new Error('JSON parse hatası: ' + raw.slice(0, 200))); }
+        });
+      });
+      req.on('error', reject);
+      req.write(payload);
+      req.end();
     });
-
-    clearTimeout(timeout);
-    const data = await response.json();
 
     return {
       statusCode: 200,
