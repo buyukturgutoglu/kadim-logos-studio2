@@ -330,140 +330,98 @@ function basla(){
 }
 
 // ─── TAB KONFİGÜRASYONU ──────────────────────────────────────
+// Sayfa metnini kırp — API hızı için (500 karakter yeterli)
+function kırp(metin){ return metin.length > 500 ? metin.slice(0,500)+'…' : metin; }
+
 const TAB_CFG = [
   {
     id: 0,
     buton_label: '⟡ Okuma Metnini Üret',
-    sistem: (c) => `Sen Kadim Logos Türkçe felsefe YouTube kanalı için içerik üretiyorsun.
-Her gün Stoacının Günlüğü kitabından 1 sayfa okunuyor. Ay teması: ${c.tema}
-SADECE geçerli JSON döndür, başka hiçbir metin ekleme:
-{"okuma_metni": "Ses kaydı için akıcı okuma metni. Sırasıyla: güçlü açılış sorusu → kitap+filozof tanıtımı → alıntı → tam okuma → güncel yaşamla bağlantı → not tutma bölümü ('Ben bugün şunu yazdım: [soru] — Cevaplamak zorunda değilsin, soruyu taşımak bile yeterli.') → kapanış ve yarınki konu. Sahne etiketi olmadan akıcı tek metin."}`,
-    parse: (p,c) => { if(p.okuma_metni) document.getElementById('out-okuma').textContent=p.okuma_metni; }
+    sistem: (c) => `Kadim Logos felsefe YouTube kanalı. Stoacının Günlüğü, ${c.tema} teması. Sadece JSON döndür:
+{"okuma_metni":"Ses kaydı metni — açılış sorusu, kitap+filozof tanıtımı, alıntı, tam okuma, güncel bağlantı, not tutma sorusu (Ben bugün şunu yazdım: [soru] — soruyu taşımak bile yeterli.), kapanış+yarınki konu. Akıcı tek metin, etiket yok."}`,
+    parse: (p) => { if(p.okuma_metni) document.getElementById('out-okuma').textContent=p.okuma_metni; }
   },
   {
     id: 1,
     buton_label: '⟡ Senaryo Üret',
-    sistem: (c) => `Sen Kadim Logos Türkçe felsefe YouTube kanalı için video senaryosu yazıyorsun.
-Ay teması: ${c.tema}. Filozof: ${c.fil}. Format: 2:25 dakika.
-SADECE geçerli JSON döndür:
+    sistem: (c) => `Kadim Logos video senaryosu. Filozof: ${c.fil}. 2:25 dk. Sadece JSON döndür:
 {"senaryo":[
-  {"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"güçlü açılış sorusu veya zıtlık","ipucu":"kamera hareketi notu"},
-  {"bolum":"GEÇİŞ","sure":"0:20-0:35","duygu":"MERAK","icerik":"...","ipucu":"..."},
-  {"bolum":"ALINTI","sure":"0:35-0:50","duygu":"GÜÇLÜ","icerik":"...","ipucu":"..."},
-  {"bolum":"TAM OKUMA","sure":"0:50-1:30","duygu":"DERİN","icerik":"...","ipucu":"..."},
-  {"bolum":"BAĞLANTI","sure":"1:30-1:50","duygu":"HUZUR","icerik":"...","ipucu":"..."},
-  {"bolum":"NOT TUTMA","sure":"1:50-2:03","duygu":"MERAK","icerik":"...","ipucu":"..."},
-  {"bolum":"KAPANIŞ","sure":"2:03-2:25","duygu":"GÜÇLÜ","icerik":"Kadim Logos — her gün burada. Yarınki konumuz: ... Görüşürüz.","ipucu":"..."}
+{"bolum":"GİRİŞ","sure":"0:00-0:20","duygu":"GİZEM","icerik":"...","ipucu":"..."},
+{"bolum":"GEÇİŞ","sure":"0:20-0:35","duygu":"MERAK","icerik":"...","ipucu":"..."},
+{"bolum":"ALINTI","sure":"0:35-0:50","duygu":"GÜÇLÜ","icerik":"...","ipucu":"..."},
+{"bolum":"TAM OKUMA","sure":"0:50-1:30","duygu":"DERİN","icerik":"...","ipucu":"..."},
+{"bolum":"BAĞLANTI","sure":"1:30-1:50","duygu":"HUZUR","icerik":"...","ipucu":"..."},
+{"bolum":"NOT TUTMA","sure":"1:50-2:03","duygu":"MERAK","icerik":"...","ipucu":"..."},
+{"bolum":"KAPANIŞ","sure":"2:03-2:25","duygu":"GÜÇLÜ","icerik":"Kadim Logos — her gün burada. Yarınki konu: ... Görüşürüz.","ipucu":"..."}
 ]}`,
     parse: (p) => { if(p.senaryo) renderSenaryo(p.senaryo); }
   },
   {
     id: 2,
     buton_label: '⟡ Görsel Senaryo Üret',
-    sistem: (c) => `Sen Kadim Logos için tiyatral görsel senaryo yazıyorsun.
-Sabit stil: "${STIL}"
-SADECE geçerli JSON döndür:
+    sistem: (c) => `Kadim Logos tiyatral görsel senaryo. Antik Yunan, yağlıboya, dramatik altın ışık. Sadece JSON döndür:
 {"gorsel_senaryo":[
-  {"no":1,"baslik":"...","atmosfer":"sahnenin atmosferi","sahne":"sahne tanımı","mesaj":"iletilecek duygu","duygu":"GİZEM"},
-  {"no":2,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GÜÇLÜ"},
-  {"no":3,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"HUZUR"}
+{"no":1,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GİZEM"},
+{"no":2,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"GÜÇLÜ"},
+{"no":3,"baslik":"...","atmosfer":"...","sahne":"...","mesaj":"...","duygu":"HUZUR"}
 ]}`,
     parse: (p) => { if(p.gorsel_senaryo) renderGorsel(p.gorsel_senaryo); }
   },
   {
     id: 3,
     buton_label: '⟡ Higgsfield Promptları Üret',
-    sistem: (c) => `Sen Kadim Logos için Higgsfield AI görsel promptları yazıyorsun.
-Sabit stil: "${STIL}"
-Her sahne Soul Cinema ile START+END, Cinema Studio 2.5 ile canlandırılır.
-SADECE geçerli JSON döndür:
+    sistem: (c) => `Kadim Logos Higgsfield AI promptları. Sabit stil sonu: "oil painting style, ancient Greek, golden backlight, chiaroscuro, warm amber, 16:9, no text". Soul Cinema START+END. Sadece JSON döndür:
 {"higgsfield":[
-  {"no":1,"sure":"0:00-0:20","metin":"sahne tanımı","etiket_tr":"Türkçe kısa etiket","start":"sahne açılışı, ${STIL}","end":"sahne kapanışı, ${STIL}","hareket":"Slow push in","tags":["EKRAN"],"kritik":false,"capcut_notu":"CapCut notu"},
-  {"no":2,"sure":"0:20-0:50","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":[],"kritik":true,"capcut_notu":"..."},
-  {"no":3,"sure":"0:50-1:30","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["SOL-SAĞ"],"kritik":false,"capcut_notu":"..."},
-  {"no":4,"sure":"1:30-2:25","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["MUZ"],"kritik":true,"capcut_notu":"..."}
+{"no":1,"sure":"0:00-0:20","metin":"...","etiket_tr":"...","start":"..., oil painting style, ancient Greek, golden backlight, 16:9","end":"..., oil painting style, ancient Greek, golden backlight, 16:9","hareket":"Slow push in","tags":["EKRAN"],"kritik":false,"capcut_notu":"..."},
+{"no":2,"sure":"0:20-0:50","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":[],"kritik":true,"capcut_notu":"..."},
+{"no":3,"sure":"0:50-1:30","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["SOL-SAĞ"],"kritik":false,"capcut_notu":"..."},
+{"no":4,"sure":"1:30-2:25","metin":"...","etiket_tr":"...","start":"...","end":"...","hareket":"...","tags":["MUZ"],"kritik":true,"capcut_notu":"..."}
 ]}`,
     parse: (p) => { if(p.higgsfield) renderHig(p.higgsfield); }
   },
   {
     id: 4,
     buton_label: '⟡ CapCut Rehberi Üret',
-    sistem: (c) => `Sen Kadim Logos için CapCut edit rehberi yazıyorsun.
-SADECE geçerli JSON döndür:
-{"capcut":{
-  "filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette hafif",
-  "muzik":"Okuma %20, Bağlantı %40, Kapanış %80",
-  "altyazi":"Normal beyaz orta-alt, EKRAN büyük merkezi 2sn",
-  "gecis":"Cross dissolve 0.5sn, kritik sahneler 1sn",
-  "sahneler":[
-    {"sure":"0:00","tag":"[EKRAN]","not":"Açılış sorusu ekrana yaz"},
-    {"sure":"0:35","tag":"[SOL-SAĞ BAŞLAR]","not":"Kitap sayfası sol %40 overlay, opacity %85"},
-    {"sure":"1:30","tag":"[SOL-SAĞ BİTER]","not":"Tam ekrana dön, 2sn sessizlik"},
-    {"sure":"2:03","tag":"[MÜZİK YUKARI]","not":"Ses %80'e çık, kapanış"}
-  ]
-}}`,
+    sistem: (c) => `Kadim Logos CapCut edit rehberi. Sadece JSON döndür:
+{"capcut":{"filtre":"Warm/Cozy, Brightness+5, Contrast+10, Saturation-5, Vignette hafif","muzik":"Okuma %20, Bağlantı %40, Kapanış %80","altyazi":"Beyaz orta-alt, EKRAN büyük merkezi 2sn","gecis":"Cross dissolve 0.5sn","sahneler":[
+{"sure":"0:00","tag":"[EKRAN]","not":"Açılış sorusunu yaz"},
+{"sure":"0:35","tag":"[SOL-SAĞ BAŞLAR]","not":"Kitap sol %40 overlay"},
+{"sure":"1:30","tag":"[SOL-SAĞ BİTER]","not":"Tam ekran, 2sn sessizlik"},
+{"sure":"2:03","tag":"[MÜZİK YUKARI]","not":"Ses %80"}
+]}}`,
     parse: (p) => { if(p.capcut) renderCC(p.capcut); }
   },
   {
     id: 5,
     buton_label: '⟡ Müzik JSON Üret',
-    sistem: (c) => `Sen Kadim Logos için Suno/Udio müzik JSON'u yazıyorsun.
-SADECE geçerli JSON döndür:
-{"muzik_json":{
-  "baslik":"başlık",
-  "sure":"2:25",
-  "stil":"ancient orchestral philosophical",
-  "tempo":"slow ceremonial 60-70 bpm",
-  "sections":[
-    {"sure":"0:00-0:20","mood":"mysterious dark","intensity":2,"not":"Giriş"},
-    {"sure":"0:35-0:50","mood":"tense dramatic","intensity":7,"not":"Alıntı"},
-    {"sure":"1:30-1:50","mood":"warm hopeful","intensity":5,"not":"Bağlantı"},
-    {"sure":"2:03-2:25","mood":"epic triumphant","intensity":10,"not":"Kapanış"}
-  ]
-}}`,
+    sistem: (c) => `Kadim Logos Suno/Udio müzik JSON. Sadece JSON döndür:
+{"muzik_json":{"baslik":"...","sure":"2:25","stil":"ancient orchestral philosophical","tempo":"slow ceremonial 60-70 bpm","sections":[
+{"sure":"0:00-0:20","mood":"mysterious dark","intensity":2,"not":"Giriş"},
+{"sure":"0:35-0:50","mood":"tense dramatic","intensity":7,"not":"Alıntı"},
+{"sure":"1:30-1:50","mood":"warm hopeful","intensity":5,"not":"Bağlantı"},
+{"sure":"2:03-2:25","mood":"epic triumphant","intensity":10,"not":"Kapanış"}
+]}}`,
     parse: (p) => { if(p.muzik_json) renderMuzik(p.muzik_json); }
   },
   {
     id: 6,
     buton_label: '⟡ YouTube Paketi Üret',
-    sistem: (c) => `Sen Kadim Logos için YouTube başlık, açıklama ve etiket yazıyorsun.
-SADECE geçerli JSON döndür:
-{"youtube":{
-  "baslik":"Gün ${c.gun} | ${c.tarih} — KONU BAŞLIĞI | ${c.fil} | Kadim Logos",
-  "aciklama":"açıklama metni (bölümler, linkler, CTA dahil)",
-  "etiketler":["stoacının günlüğü","stoacılık","felsefe","kadim logos","stoicism türkçe","marcus aurelius","epiktetos","seneca"]
-}}`,
+    sistem: (c) => `Kadim Logos YouTube paketi. Sadece JSON döndür:
+{"youtube":{"baslik":"Gün ${c.gun} | ${c.tarih} — KONU | ${c.fil} | Kadim Logos","aciklama":"YouTube açıklaması, bölümler ve CTA dahil","etiketler":["stoacının günlüğü","stoacılık","felsefe","kadim logos","stoicism türkçe"]}}`,
     parse: (p) => { if(p.youtube) renderYT(p.youtube); }
   },
   {
     id: 7,
     buton_label: '⟡ Shorts & SM Üret',
-    sistem: (c) => `Sen Kadim Logos için Shorts ve sosyal medya içerikleri yazıyorsun.
-SADECE geçerli JSON döndür:
-{"shorts":[
-  {"baslik":"...","aciklama":"...","sahne":"hangi Higgsfield sahnesi"},
-  {"baslik":"...","aciklama":"...","sahne":"..."},
-  {"baslik":"...","aciklama":"...","sahne":"..."}
-],"sosyal_medya":[
-  {"platform":"Instagram","tip":"Reels","metin":"..."},
-  {"platform":"TikTok","tip":"Video","metin":"..."},
-  {"platform":"Instagram","tip":"Story","metin":"..."},
-  {"platform":"Facebook","tip":"Post","metin":"..."}
-]}`,
+    sistem: (c) => `Kadim Logos Shorts ve sosyal medya. Sadece JSON döndür:
+{"shorts":[{"baslik":"...","aciklama":"...","sahne":"..."},{"baslik":"...","aciklama":"...","sahne":"..."},{"baslik":"...","aciklama":"...","sahne":"..."}],"sosyal_medya":[{"platform":"Instagram","tip":"Reels","metin":"..."},{"platform":"TikTok","tip":"Video","metin":"..."},{"platform":"Instagram","tip":"Story","metin":"..."},{"platform":"Facebook","tip":"Post","metin":"..."}]}`,
     parse: (p) => { if(p.shorts||p.sosyal_medya) renderSM(p.shorts||[],p.sosyal_medya||[]); }
   },
   {
     id: 8,
     buton_label: '⟡ Ay Teması Üret',
-    sistem: (c) => `Sen Kadim Logos için ay teması bağlantısını yazıyorsun.
-Kanal: Stoacının Günlüğü günlük okuma. Ay: ${c.tema}.
-SADECE geçerli JSON döndür:
-{"ay_temasi":{
-  "ay":"${c.tema}",
-  "bugun":"bu günün ${c.tema} temasıyla bağlantısı",
-  "hafta":"bu haftanın yönü ve odak noktası",
-  "kanal":"kanalın büyük hikayesindeki yeri"
-}}`,
+    sistem: (c) => `Kadim Logos ay teması. ${c.tema}. Sadece JSON döndür:
+{"ay_temasi":{"ay":"${c.tema}","bugun":"bu günün temayla bağlantısı","hafta":"bu haftanın yönü","kanal":"kanalın büyük hikayesindeki yeri"}}`,
     parse: (p) => { if(p.ay_temasi) renderTema(p.ay_temasi); }
   }
 ];
@@ -487,7 +445,7 @@ async function uretTab(tabIdx){
 
   try {
     const sys = cfg.sistem(CTX);
-    const userMsg = `Gün ${CTX.gun} — ${CTX.tarih} — Konu: ${CTX.konu} — Filozof: ${CTX.fil}\n\nSAYFA METNİ:\n${CTX.metin}`;
+    const userMsg = `Gün ${CTX.gun} — ${CTX.tarih} — Konu: ${CTX.konu} — Filozof: ${CTX.fil}\n\nSAYFA METNİ:\n${kırp(CTX.metin)}`;
 
     const r = await fetch('/.netlify/functions/claude', {
       method: 'POST',
